@@ -23,5 +23,10 @@
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.14" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.coalesce:Core:1.0" level="project" />
     <orderEntry type="library" name="core-1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.coalesce:core:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.14" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.coalesce:Core:1.0" level="project" />
+    <orderEntry type="library" name="Spigot" level="project" />
+    <orderEntry type="library" name="lombok (2)" level="project" />
   </component>
 </module>

@@ -8,6 +8,6 @@ public class Statics {
     }
 
     public static String colour(char colourChar, String colour) {
-        return ChatColor.translateAlternateColorCodes(colourChar, colour);
+        return ChatColor.translateAlternateColorCodes(colourChar, colour == null ? "null" : colour);
     }
 }
