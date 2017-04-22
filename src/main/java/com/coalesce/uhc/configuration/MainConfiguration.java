@@ -16,4 +16,6 @@ public class MainConfiguration { // To be used by Google JSON (GSON).
     @Getter private int worldBorderInitialSize;
     @Getter private int worldBorderStartShrinkingMinutes;
     @Getter private int gracePeriodMinutes;
+    @Getter private int worldBorderShrinkTime;
+    @Getter private int worldBorderFinalShrinkSize;
 }
