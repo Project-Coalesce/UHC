@@ -23,7 +23,6 @@ public class CommandHandler {
         commands.add(new CommandBuilder(plugin, "Game Start").aliases("start", "begin").executor(this::gameStartCommand).build());
 
         commands.forEach(plugin::addCommand);
-
     }
 
     public void gameStartCommand(CommandContext context) {
@@ -31,14 +30,20 @@ public class CommandHandler {
             context.send(colour("&cInsufficient permissions."));
             return;
         }
-        if (!context.getSender().isOp()) {
-            context.send(colour("&cAccess denied."));
+
+        if (GameState.current() != GameState.LOBBY) {
+            context.send(colour("&cAlready started."));
             return;
         }
 
         GameState.STARTING.setCurrent();
         GameState.STARTED.setCurrent();
-        Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(ChatColor.GREEN + ""));
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+            player.sendMessage(ChatColor.GOLD + "[ -- The game has started! -- ]");
+            player.sendMessage(ChatColor.GREEN + "There'll be a 10 minute grace period.");
+            player.sendMessage(ChatColor.GREEN + "Attacking other players during that period is illegal.");
+            player.sendMessage(ChatColor.GREEN + "In 2 minutes, the world border will start to shrink.");
+        });
     }
 
     public void messageCommand(CommandContext context) {
