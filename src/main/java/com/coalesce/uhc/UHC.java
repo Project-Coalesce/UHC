@@ -2,6 +2,9 @@ package com.coalesce.uhc;
 
 import com.coalesce.plugin.CoPlugin;
 import com.coalesce.uhc.configuration.MainConfiguration;
+import com.coalesce.uhc.eventhandlers.DeathHandler;
+import lombok.Getter;
+import org.bukkit.Bukkit;
 import com.coalesce.uhc.eventhandlers.ArcheryHandler;
 import com.coalesce.uhc.eventhandlers.DeathHandler;
 import com.coalesce.uhc.eventhandlers.GameInitializeHandler;
@@ -26,7 +29,7 @@ public class UHC extends CoPlugin {
 
     @Getter private MainConfiguration mainConfig;
 
-    @Override public void onPluginEnable() throws Exception {
+    @Override public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
         mainConfig = new Gson().fromJson(new FileReader("config.json"), MainConfiguration.class);
         Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 

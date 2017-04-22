@@ -28,5 +28,17 @@
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.14</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.coalesce</groupId>
+            <artifactId>Core</artifactId> <!-- Installed into local .m2 -->
+            <version>1.0</version>
+            <scope>provided</scope> <!-- Installed as a plugin on the server. -->
+        </dependency>
     </dependencies>
 </project>
