@@ -1,5 +1,8 @@
 package com.coalesce.uhc.eventhandlers;
 
+import static com.coalesce.uhc.utilities.Statics.colour;
+
+import com.coalesce.chat.CoFormatter;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.UHC;
 import org.bukkit.Bukkit;
@@ -11,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class DeathHandler implements Listener {
@@ -25,21 +30,27 @@ public class DeathHandler implements Listener {
                 .equals(GameMode.SPECTATOR));
 
         if (Bukkit.getServer().getOnlinePlayers().stream().allMatch(player -> player.getMetadata("wasAlive").isEmpty())) {
-            event.setDeathMessage(ChatColor.YELLOW + "- First death: " + event.getDeathMessage());
+            event.setDeathMessage(colour("&e- First death: " + event.getDeathMessage()));
 
         } else {
-            event.setDeathMessage(ChatColor.YELLOW + "- " + event.getDeathMessage());
+            event.setDeathMessage(colour("&e- " + event.getDeathMessage()));
         }
 
-        Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(ChatColor.RED + "There are " + survivors.count()
-                + " men standing."));
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(colour("&cThere are " + survivors.count()
+                + " men standing.")));
+
+        CoFormatter formatter = new CoFormatter(UHC.getInstance());
 
         if (survivors.count() <= 1) {
             Player winner = survivors.findFirst().get();
             GameState.ENDED.setCurrent();
             Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-                player.sendMessage(ChatColor.GOLD + "Game over!");
-                player.sendMessage(ChatColor.AQUA + winner.getName() + ChatColor.GREEN + " has won!");
+                List<String> strings = new ArrayList<>();
+                strings.add("&6---[ Game over! ]---");
+                strings.add("&b" + winner.getName() + "&a has won the game!");
+                strings.add("&bThank you for participating!");
+
+                strings.forEach(curs -> player.sendMessage(formatter.centerString(colour(curs))));
             });
         }
 
