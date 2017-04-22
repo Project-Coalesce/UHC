@@ -1,5 +1,6 @@
 package com.coalesce.uhc;
 
+import com.coalesce.chat.CoFormatter;
 import com.coalesce.command.CoCommand;
 import com.coalesce.command.CommandBuilder;
 import com.coalesce.command.CommandContext;
@@ -15,7 +16,11 @@ import java.util.List;
 import static com.coalesce.uhc.utilities.Statics.colour;
 
 public class CommandHandler {
+    private CoFormatter formatter;
+
     public CommandHandler(CoPlugin plugin) {
+        formatter = new CoFormatter(plugin);
+
         List<CoCommand> commands = new ArrayList<>();
 
         commands.add(new CommandBuilder(plugin, "Private Message").aliases("pm", "m", "w", "whisper", "msg", "tell").executor
@@ -39,10 +44,13 @@ public class CommandHandler {
         GameState.STARTING.setCurrent();
         GameState.STARTED.setCurrent();
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-            player.sendMessage(ChatColor.GOLD + "[ -- The game has started! -- ]");
-            player.sendMessage(ChatColor.GREEN + "There'll be a 10 minute grace period.");
-            player.sendMessage(ChatColor.GREEN + "Attacking other players during that period is illegal.");
-            player.sendMessage(ChatColor.GREEN + "In 2 minutes, the world border will start to shrink.");
+            List<String> strings = new ArrayList<>();
+            strings.add("&6---[ And the game begins! ]---");
+            strings.add("&bThere'll be a 10 minute grace period.");
+            strings.add("&bAttacking other players during that period is illegal.");
+            strings.add("&bIn 2 minutes, the world border will start to shrink.");
+
+            strings.forEach(curs -> player.sendMessage(formatter.centerString(colour(curs))));
         });
     }
 
