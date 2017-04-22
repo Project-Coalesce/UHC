@@ -57,7 +57,7 @@ public class CommandHandler {
 
         GameState.setGameWorld(((Player) context.getSender()).getWorld());
         GameState.STARTING.setCurrent();
-        GameState.STARTED.setCurrent();
+
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
             List<String> strings = new ArrayList<>();
             strings.add("&6---[ And the game begins! ]---");
