@@ -1,18 +1,15 @@
 package com.coalesce.uhc;
 
-import com.coalesce.command.CoCommand;
-import com.coalesce.command.CommandBuilder;
 import com.coalesce.plugin.CoPlugin;
-import com.coalesce.uhc.commands.Message;
 import com.coalesce.uhc.configuration.MainConfiguration;
 import com.coalesce.uhc.eventhandlers.ArcheryHandler;
 import com.coalesce.uhc.eventhandlers.DeathHandler;
 import com.coalesce.uhc.eventhandlers.GameInitializeHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class UHC extends CoPlugin {
     private static UHC instance;
@@ -32,10 +29,7 @@ public class UHC extends CoPlugin {
         Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
         new CommandHandler(this);
-
-        getServer().getPluginManager().registerEvents(new DeathHandler(), this);
-        getServer().getPluginManager().registerEvents(new ArcheryHandler(), this);
-        getServer().getPluginManager().registerEvents(new GameInitializeHandler(), this);
+        Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler()}).forEach(this::registerListener);
     }
 
     @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {
