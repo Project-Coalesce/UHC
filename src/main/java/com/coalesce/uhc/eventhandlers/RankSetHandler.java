@@ -28,6 +28,8 @@ public class RankSetHandler implements Listener {
         User user = optionalUser.orElseGet(() -> new User(event.getPlayer(), Participation.SPECTATOR));
         if (event.getPlayer().isOp() || event.getNewGameMode() == GameMode.CREATIVE) {
             user.setParticipation(Participation.ADMIN);
+        } else {
+            user.setParticipation(Participation.PARTICIPATOR);
         }
         UserManager.getInstance().addUser(user);
     }
