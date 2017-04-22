@@ -17,7 +17,6 @@ import java.util.Arrays;
 public class UHC extends CoPlugin {
     @Getter private static UHC instance;
     @Getter private MainConfiguration mainConfig;
-    @Getter private CoFormatter formatter;
 
     @Override public void onPluginEnable() throws Exception {
         instance = this;
@@ -27,8 +26,6 @@ public class UHC extends CoPlugin {
 
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler()}).forEach(this::registerListener);
-
-        formatter = new CoFormatter(this);
     }
 
     @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {
