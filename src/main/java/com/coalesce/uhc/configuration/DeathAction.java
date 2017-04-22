@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public enum DeathAction {
     GAMEMODE() {
-        @Override protected void handle(Player player) {
+        @Override protected void handle(Player player, String deathMesasge) {
             if (player.isOp()) {
                 player.sendMessage(ChatColor.RED + "You'll now be in spectator mode. Enter a player's POV if you want to punish them.");
             } else {
@@ -16,15 +16,15 @@ public enum DeathAction {
         }
     },
     BAN() {
-        @Override protected void handle(Player player) {
-            player.kickPlayer(ChatColor.RED + "You have been killed and are now round-banned.");
+        @Override protected void handle(Player player, String deathMessage) {
+            player.kickPlayer(ChatColor.RED + "You have been round-banned for dying:\n" + ChatColor.RED + deathMessage);
         }
     };
 
-    public void handlePlayer(Player player) {
+    public void handlePlayer(Player player, String message) {
         // TODO: Check if player is ADMIN, if so, set to spectator no matter what.
-        handle(player);
+        handle(player, message);
     }
 
-    protected abstract void handle(Player player);
+    protected abstract void handle(Player player, String deathMessage);
 }
