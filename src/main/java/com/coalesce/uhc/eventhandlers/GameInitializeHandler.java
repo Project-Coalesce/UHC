@@ -37,7 +37,8 @@ public class GameInitializeHandler implements Listener {
     private void shrink() {
         MainConfiguration config = UHC.getInstance().getMainConfig();
         GameState.getGameWorld().getWorldBorder().setSize(config.getWorldBorderFinalShrinkSize(),
-                TimeUnit.MILLISECONDS.convert(config.getWorldBorderStartShrinkingMinutes(), TimeUnit.MINUTES);
+                TimeUnit.MILLISECONDS.convert(config.getWorldBorderStartShrinkingMinutes(), TimeUnit.MINUTES));
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6The border has started to shrink!")));
     }
 
     private void gracePeriodEnd() {
