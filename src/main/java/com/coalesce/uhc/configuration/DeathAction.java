@@ -1,8 +1,14 @@
 package com.coalesce.uhc.configuration;
 
+import com.coalesce.uhc.users.Participation;
+import com.coalesce.uhc.users.User;
+import com.coalesce.uhc.users.UserManager;
+import com.coalesce.uhc.utilities.Enums;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+
+import java.util.Optional;
 
 public enum DeathAction {
     GAMEMODE() {
@@ -13,6 +19,12 @@ public enum DeathAction {
                 player.sendMessage(ChatColor.RED + "You'll now be in spectator mode. Don't ghost or such!");
             }
             player.setGameMode(GameMode.SPECTATOR);
+
+            Participation participation = Participation.SPECTATOR;
+            Optional<User> optionalUser = UserManager.getInstance().getUser(player.getUniqueId());
+            User user = optionalUser.orElseGet(() -> new User(player, participation));
+            user.setParticipation(participation);
+            UserManager.getInstance().addUser(user);
         }
     },
     BAN() {

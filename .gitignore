@@ -22,6 +22,7 @@ lombok.jar
 .idea/**/uiDesigner.xml
 .idea/**/
 .idea/
+uhc.iml
 
 # Gradle:
 .idea/**/gradle.xml
