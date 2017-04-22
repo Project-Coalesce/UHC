@@ -96,7 +96,8 @@ public class CommandHandler {
     }
 
     private void assignCommand(CommandContext context) {
-        if (!context.getSender().isOp()) {
+        if (UserManager.getInstance().getUser(context.asPlayer().getUniqueId())
+                .orElseThrow(() -> new RuntimeException("An offline player executed a command.")).getParticipation() != Participation.ADMIN) {
             context.send(colour("&cInsufficient permissions."));
             return;
         }
