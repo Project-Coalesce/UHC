@@ -25,7 +25,8 @@ public class UHC extends CoPlugin {
     @Getter private MainConfiguration mainConfig;
 
     @Override public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
-        mainConfig = new MainConfiguration(false); // TODO: Load from config file.
+        //TODO Load from config file.
+        mainConfig = new MainConfiguration(false, 2000, 2, 10);
         Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
         new CommandHandler(this);

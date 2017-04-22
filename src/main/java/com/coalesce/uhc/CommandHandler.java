@@ -36,11 +36,17 @@ public class CommandHandler {
             return;
         }
 
+        if (!(context.getSender() instanceof Player)){
+            context.send(colour("&cThis command is only accessible for players."));
+            return;
+        }
+
         if (GameState.current() != GameState.LOBBY) {
             context.send(colour("&cAlready started."));
             return;
         }
 
+        GameState.setGameWorld(((Player) context.getSender()).getWorld());
         GameState.STARTING.setCurrent();
         GameState.STARTED.setCurrent();
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
