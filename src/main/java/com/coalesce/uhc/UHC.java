@@ -1,6 +1,5 @@
 package com.coalesce.uhc;
 
-import com.coalesce.chat.CoFormatter;
 import com.coalesce.plugin.CoPlugin;
 import com.coalesce.uhc.configuration.MainConfiguration;
 import com.coalesce.uhc.eventhandlers.ArcheryHandler;

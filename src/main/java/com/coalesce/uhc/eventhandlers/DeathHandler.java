@@ -48,8 +48,7 @@ public class DeathHandler implements Listener {
                 List<String> strings = new ArrayList<>();
                 strings.add("&6---[ Game over! ]---");
                 strings.add("&b" + winner.getName() + "&a has won the game!");
-                strings.add("&bAttacking other players during that period is illegal.");
-                strings.add("&bIn 2 minutes, the world border will start to shrink.");
+                strings.add("&bThank you for participating!");
 
                 strings.forEach(curs -> player.sendMessage(formatter.centerString(colour(curs))));
             });
