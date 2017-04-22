@@ -32,9 +32,10 @@ public class GameInitializeHandler implements Listener {
         border.setSize(UHC.getInstance().getMainConfig().getWorldBorderInitialSize());
 
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&bWe are teleporting players, please wait!")));
-        spread();
 
+        spread();
         shrink();
+
         schedule(this::gracePeriodEnd, TimeUnit.MILLISECONDS.convert(UHC.getInstance().getMainConfig().getGracePeriodMinutes(), TimeUnit.MINUTES));
     }
 
@@ -44,12 +45,11 @@ public class GameInitializeHandler implements Listener {
         int spreadSize = UHC.getInstance().getMainConfig().getWorldBorderInitialSize();
         Stream<? extends Player> players = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> !player.getGameMode().equals(GameMode.SPECTATOR));
 
-        players.forEach(player -> player.teleport(generateSafe(spreadSize, world)));
+        players.forEach(player -> player.teleport(generateSafe(spreadSize, world, random)));
     }
 
-    private Location generateSafe(int size, World world) {
+    private Location generateSafe(int size, World world, Random random) {
         Location where;
-        Random random = ThreadLocalRandom.current();
         int x, z, y;
         int max = size / 2;
         int min = Math.abs(size / 2) * -1;
