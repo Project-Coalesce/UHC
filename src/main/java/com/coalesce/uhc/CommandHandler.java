@@ -36,7 +36,7 @@ public class CommandHandler {
             return;
         }
 
-        if (!(context.getSender() instanceof Player)){
+        if (!(context.getSender() instanceof Player)) {
             context.send(colour("&cThis command is only accessible for players."));
             return;
         }
