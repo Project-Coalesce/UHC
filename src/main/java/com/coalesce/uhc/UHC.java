@@ -1,5 +1,6 @@
 package com.coalesce.uhc;
 
+import com.coalesce.chat.CoFormatter;
 import com.coalesce.plugin.CoPlugin;
 import com.coalesce.uhc.configuration.MainConfiguration;
 import com.coalesce.uhc.eventhandlers.ArcheryHandler;
@@ -14,24 +15,20 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class UHC extends CoPlugin {
-    private static UHC instance;
-
-    public static UHC getInstance() {
-        return instance;
-    }
-
-    public UHC() {
-        UHC.instance = this;
-    }
-
+    @Getter private static UHC instance;
     @Getter private MainConfiguration mainConfig;
+    @Getter private CoFormatter formatter;
 
     @Override public void onPluginEnable() throws Exception {
+        instance = this;
+
         mainConfig = new Gson().fromJson(new FileReader("config.json"), MainConfiguration.class);
         Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler()}).forEach(this::registerListener);
+
+        formatter = new CoFormatter(this);
     }
 
     @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {

@@ -96,6 +96,11 @@ public class CommandHandler {
     }
 
     private void assignCommand(CommandContext context) {
+        if (!context.getSender().isOp()) {
+            context.send(colour("&cInsufficient permissions."));
+            return;
+        }
+
         if (context.getArgs().size() != 2) {
             context.send(colour("&cYou need to specify a user and a participation to assign."));
             return;
