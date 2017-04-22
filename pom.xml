@@ -4,6 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>com.coalesce</groupId>
+        <version>1.0</version>
+        <relativePath>../Core/pom.xml</relativePath>
+    </parent>
+
     <artifactId>uhc</artifactId>
     <groupId>com.coalesce</groupId>
     <version>1.0</version>
@@ -27,18 +34,6 @@
             <artifactId>core</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.14</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.coalesce</groupId>
-            <artifactId>Core</artifactId> <!-- Installed into local .m2 -->
-            <version>1.0</version>
-            <scope>provided</scope> <!-- Installed as a plugin on the server. -->
         </dependency>
     </dependencies>
 </project>
