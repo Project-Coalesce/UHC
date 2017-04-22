@@ -3,10 +3,11 @@ package com.coalesce.uhc;
 import com.coalesce.command.CoCommand;
 import com.coalesce.command.CommandBuilder;
 import com.coalesce.plugin.CoPlugin;
-import com.coalesce.uhc.commands.GameStartCommand;
 import com.coalesce.uhc.commands.Message;
 import com.coalesce.uhc.configuration.MainConfiguration;
+import com.coalesce.uhc.eventhandlers.ArcheryHandler;
 import com.coalesce.uhc.eventhandlers.DeathHandler;
+import com.coalesce.uhc.eventhandlers.GameInitializeHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
@@ -30,14 +31,11 @@ public class UHC extends CoPlugin {
         mainConfig = new MainConfiguration(false); // TODO: Load from config file.
         Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
-        List<CoCommand> commands = new ArrayList<>();
-
-        commands.add(new CommandBuilder(this, "Private Message").aliases("pm", "m", "w", "whisper", "msg", "tell").executor(new Message()).build());
-        commands.add(new CommandBuilder(this, "Game Start").aliases("start", "begin").executor(new GameStartCommand()).build());
-
-        commands.forEach(this::addCommand);
+        new CommandHandler(this);
 
         getServer().getPluginManager().registerEvents(new DeathHandler(), this);
+        getServer().getPluginManager().registerEvents(new ArcheryHandler(), this);
+        getServer().getPluginManager().registerEvents(new GameInitializeHandler(), this);
     }
 
     @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {

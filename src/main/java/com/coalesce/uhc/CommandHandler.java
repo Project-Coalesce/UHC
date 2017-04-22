@@ -1,15 +1,47 @@
-package com.coalesce.uhc.commands;
+package com.coalesce.uhc;
 
+import com.coalesce.command.CoCommand;
+import com.coalesce.command.CommandBuilder;
 import com.coalesce.command.CommandContext;
-import com.coalesce.command.CommandExecutor;
+import com.coalesce.plugin.CoPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.coalesce.uhc.utilities.Statics.colour;
 
-public class Message implements CommandExecutor {
-    @Override public void execute(CommandContext context) {
+public class CommandHandler {
+    public CommandHandler(CoPlugin plugin) {
+        List<CoCommand> commands = new ArrayList<>();
+
+        commands.add(new CommandBuilder(plugin, "Private Message").aliases("pm", "m", "w", "whisper", "msg", "tell").executor
+                (this::messageCommand).build());
+        commands.add(new CommandBuilder(plugin, "Game Start").aliases("start", "begin").executor(this::gameStartCommand).build());
+
+        commands.forEach(plugin::addCommand);
+
+    }
+
+    public void gameStartCommand(CommandContext context) {
+        if (!context.getSender().isOp()) {
+            context.send(colour("&cInsufficient permissions."));
+            return;
+        }
+        if (!context.getSender().isOp()) {
+            context.send(colour("&cAccess denied."));
+            return;
+        }
+
+        GameState.STARTING.setCurrent();
+        GameState.STARTED.setCurrent();
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(ChatColor.GREEN + ""));
+    }
+
+    public void messageCommand(CommandContext context) {
         if (!context.hasArgs() || context.getArgs().size() < 2) {
             context.send(colour("&cYou need to specify a receiver and a message."));
             return;
