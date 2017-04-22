@@ -29,6 +29,7 @@
     </repositories>
 
     <dependencies>
+        <!--The core. Dont mess with this pls-->
         <dependency>
             <groupId>com.coalesce</groupId>
             <artifactId>core</artifactId>
