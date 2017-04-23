@@ -18,7 +18,7 @@ public class UHC extends CoPlugin {
 
     @Override public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
         instance = this;
-        
+
 		try {
 			mainConfig = new Gson().fromJson(new FileReader("config.json"), MainConfiguration.class);
 		}
