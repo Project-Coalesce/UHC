@@ -36,13 +36,11 @@ public class GameStart {
         GameState.STARTING.setCurrent();
 
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-            List<String> strings = new ArrayList<>();
-            strings.add("&6---[ And the game begins! ]---");
-            strings.add("&bThere'll be a 10 minute grace period.");
-            strings.add("&bAttacking other players during that period is illegal.");
-            strings.add("&bIn 2 minutes, the world border will start to shrink.");
-
-            strings.forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
+            Arrays.asList("&6---[ And the game begins! ]---",
+                          "&bThere'll be a 10 minute grace period.",
+                          "&bAttacking other players during that period is illegal.",
+                          "&bIn 2 minutes, the world border will start to shrink.")
+                .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
         });
     }
 }
