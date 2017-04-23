@@ -13,19 +13,12 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class UHC extends CoPlugin {
-    private static UHC instance;
-
-    public static UHC getInstance() {
-        return instance;
-    }
-
-    public UHC() {
-        UHC.instance = this;
-    }
-
+    @Getter private static UHC instance;
     @Getter private MainConfiguration mainConfig;
 
     @Override public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
+        instance = this;
+        
 		try {
 			mainConfig = new Gson().fromJson(new FileReader("config.json"), MainConfiguration.class);
 		}
