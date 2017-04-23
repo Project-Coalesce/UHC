@@ -1,6 +1,5 @@
 package com.coalesce.uhc.commands;
 
-import com.coalesce.chat.CoFormatter;
 import com.coalesce.command.CommandContext;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.UHC;
@@ -9,9 +8,7 @@ import com.coalesce.uhc.users.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.coalesce.uhc.utilities.Statics.colour;
 
