@@ -34,7 +34,6 @@ public class GameStart {
 
         GameState.setGameWorld(((Player) context.getSender()).getWorld());
         GameState.STARTING.setCurrent();
-        CoFormatter formatter = new CoFormatter(UHC.getInstance());
 
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
             List<String> strings = new ArrayList<>();
@@ -43,7 +42,7 @@ public class GameStart {
             strings.add("&bAttacking other players during that period is illegal.");
             strings.add("&bIn 2 minutes, the world border will start to shrink.");
 
-            strings.forEach(curs -> player.sendMessage(formatter.centerString(colour(curs))));
+            strings.forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
         });
     }
 }

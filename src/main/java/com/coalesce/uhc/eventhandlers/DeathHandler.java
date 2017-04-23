@@ -39,8 +39,6 @@ public class DeathHandler implements Listener {
         Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(colour("&cThere are " + survivors.count()
                 + " men standing.")));
 
-        CoFormatter formatter = new CoFormatter(UHC.getInstance());
-
         if (survivors.count() <= 1) {
             Player winner = survivors.findFirst().get();
             GameState.ENDED.setCurrent();
@@ -50,7 +48,7 @@ public class DeathHandler implements Listener {
                 strings.add("&b" + winner.getName() + "&a has won the game!");
                 strings.add("&bThank you for participating!");
 
-                strings.forEach(curs -> player.sendMessage(formatter.centerString(colour(curs))));
+                strings.forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
             });
         }
 
