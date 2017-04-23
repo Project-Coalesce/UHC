@@ -11,6 +11,7 @@ public class MainConfiguration { // To be used by Google JSON (GSON).
 	private int gracePeriodMinutes;
 	private int worldBorderShrinkTime;
 	private int worldBorderFinalShrinkSize;
+	private int disconnectGracePeriodSeconds;
 	
 	public DeathAction getDeathAction() {
 		return roundBanDead ? DeathAction.BAN : DeathAction.GAMEMODE;

@@ -29,6 +29,8 @@ public class UserManager {
         participators = new HashMap<>();
     }
 
+    public void removeUser(UUID uid) { this.participators.remove(uid); }
+
     /**
      * Used for both updating user objects and for adding new ones.
      *

@@ -28,8 +28,8 @@ public class UHC extends CoPlugin {
 		Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
         new CommandHandler(this);
-        Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new RankSetHandler(),
-            new MessageHandler(), new JoiningHandler()}).forEach(this::registerListener);
+        Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
+            new MessageHandler(), new GameActionsHandler()}).forEach(this::registerListener);
     }
 
     @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {
