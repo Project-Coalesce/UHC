@@ -43,12 +43,10 @@ public class DeathHandler implements Listener {
             Player winner = survivors.findFirst().get();
             GameState.ENDED.setCurrent();
             Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-                List<String> strings = new ArrayList<>();
-                strings.add("&6---[ Game over! ]---");
-                strings.add("&b" + winner.getName() + "&a has won the game!");
-                strings.add("&bThank you for participating!");
-
-                strings.forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
+                Arrays.asList("&6---[ Game over! ]---",
+                              "&b" + winner.getName() + "&a has won the game!",
+                              "&bThank you for participating!")
+                    .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
             });
         }
 
