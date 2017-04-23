@@ -12,7 +12,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.math.BigDecimal;
 
 public class ArcheryHandler implements Listener {
-    @EventHandler public void playerShotEvent(EntityDamageByEntityEvent event) {
+    @EventHandler
+    public void playerShotEvent(EntityDamageByEntityEvent event) {
         if (GameState.current() == GameState.LOBBY || GameState.current() == GameState.ENDED) {
             return;
         }

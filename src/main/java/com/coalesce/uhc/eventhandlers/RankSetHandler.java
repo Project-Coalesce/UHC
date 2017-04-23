@@ -13,7 +13,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.Optional;
 
 public class RankSetHandler implements Listener {
-    @EventHandler public void playerJoin(PlayerJoinEvent event) {
+    @EventHandler
+    public void playerJoin(PlayerJoinEvent event) {
         if (UserManager.getInstance().getUser(event.getPlayer().getUniqueId()).isPresent()) {
             return;
         }
@@ -27,7 +28,8 @@ public class RankSetHandler implements Listener {
         UserManager.getInstance().addUser(user);
     }
 
-    @EventHandler public void gameModeChange(PlayerGameModeChangeEvent event) {
+    @EventHandler
+    public void gameModeChange(PlayerGameModeChangeEvent event) {
         Optional<User> optionalUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId());
         User user = optionalUser.orElseGet(() -> new User(event.getPlayer(), Participation.SPECTATOR));
         if (event.getPlayer().isOp() || event.getNewGameMode() == GameMode.CREATIVE) {

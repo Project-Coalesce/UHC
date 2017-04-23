@@ -20,7 +20,8 @@ import static com.coalesce.uhc.utilities.Statics.colour;
 import static com.coalesce.uhc.utilities.TimerWrapper.schedule;
 
 public class GameInitializeHandler implements Listener {
-    @EventHandler public void gameInitialize(StateChangeEvent initStateHandle) {
+    @EventHandler
+    public void gameInitialize(StateChangeEvent initStateHandle) {
         if (initStateHandle.getTo() != GameState.STARTING) return;
 
         //Initialize Everything

@@ -12,7 +12,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.Optional;
 
 public class MessageHandler implements Listener {
-    @EventHandler public void onMessage(AsyncPlayerChatEvent event) {
+    @EventHandler
+    public void onMessage(AsyncPlayerChatEvent event) {
         Optional<User> optionalUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId());
         if (!optionalUser.isPresent()) {
             event.setCancelled(true);

@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class DeathHandler implements Listener {
-    @EventHandler public void playerDiedEvent(PlayerDeathEvent event) {
+    @EventHandler
+    public void playerDiedEvent(PlayerDeathEvent event) {
         if (GameState.current() == GameState.LOBBY || GameState.current() == GameState.ENDED) {
             return;
         }

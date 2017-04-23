@@ -25,7 +25,8 @@ public class Message implements Listener {
         UHC.getInstance().registerListener(this);
     }
 
-    @EventHandler public void leave(PlayerQuitEvent event) {
+    @EventHandler
+    public void leave(PlayerQuitEvent event) {
         if(lastMessaged.containsKey(event.getPlayer())) lastMessaged.remove(event.getPlayer());
     }
 
