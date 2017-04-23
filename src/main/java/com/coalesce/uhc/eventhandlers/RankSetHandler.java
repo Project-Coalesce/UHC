@@ -1,5 +1,6 @@
 package com.coalesce.uhc.eventhandlers;
 
+import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.users.Participation;
 import com.coalesce.uhc.users.User;
 import com.coalesce.uhc.users.UserManager;
@@ -16,7 +17,8 @@ public class RankSetHandler implements Listener {
         if (UserManager.getInstance().getUser(event.getPlayer().getUniqueId()).isPresent()) {
             return;
         }
-        User user = new User(event.getPlayer(), Participation.SPECTATOR);
+        User user = new User(event.getPlayer(), GameState.current() == GameState.LOBBY ? Participation.PARTICIPATOR :
+            Participation.SPECTATOR);
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE || event.getPlayer().isOp()) {
             user.setParticipation(Participation.ADMIN);
         }

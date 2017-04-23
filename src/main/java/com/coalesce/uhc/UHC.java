@@ -29,7 +29,7 @@ public class UHC extends CoPlugin {
 
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new RankSetHandler(),
-            new MessageHandler()}).forEach(this::registerListener);
+            new MessageHandler(), new JoiningHandler()}).forEach(this::registerListener);
     }
 
     @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {
