@@ -37,7 +37,7 @@ public class DeathHandler implements Listener {
         }
 
         Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(colour("&cThere are " + survivors.count()
-                + " men standing.")));
+                + " men left standing.")));
 
         if (survivors.count() <= 1) {
             Player winner = survivors.findFirst().get();
