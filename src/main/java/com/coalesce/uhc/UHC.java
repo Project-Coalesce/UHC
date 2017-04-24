@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 public class UHC extends CoPlugin {
     @Getter private static UHC instance;
@@ -21,10 +22,9 @@ public class UHC extends CoPlugin {
 
 		try {
 			mainConfig = new Gson().fromJson(new FileReader("config.json"), MainConfiguration.class);
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (FileNotFoundException e) {
+		    e.printStackTrace();
+        }
 		Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
         new CommandHandler(this);

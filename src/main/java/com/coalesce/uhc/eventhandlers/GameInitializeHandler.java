@@ -81,7 +81,10 @@ public class GameInitializeHandler implements Listener {
 
     private void gracePeriodEnd() {
         GameState.getGameWorld().setPVP(true);
-        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&cThe grace period has ended, PvP is now allowed!")));
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            player.sendMessage(colour("&cThe grace period has ended, PvP is now allowed!"));
+            player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);;
+        });
         GameState.STARTED.setCurrent();
     }
 }

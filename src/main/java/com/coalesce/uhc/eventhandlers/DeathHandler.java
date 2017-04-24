@@ -8,6 +8,7 @@ import com.coalesce.uhc.UHC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,10 +46,12 @@ public class DeathHandler implements Listener {
             Player winner = survivors.findFirst().get();
             GameState.ENDED.setCurrent();
             Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-                Arrays.asList("&6---[ Game over! ]---",
-                              "&b" + winner.getName() + "&a has won the game!",
-                              "&bThank you for participating!")
+                Arrays.asList(
+                        "&e---[ Game over! ]---",
+                        "&b" + winner.getName() + "&a has won the game!",
+                        "&bThank you for participating!")
                     .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_BREAK, 1f, 1f);
             });
         }
 
