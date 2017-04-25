@@ -20,7 +20,8 @@ public class UHC extends CoPlugin {
     @Getter private static UHC instance;
     @Getter private MainConfiguration mainConfig;
 
-    @Override public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
+    @Override
+    public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
         instance = this;
 
 		try {
@@ -41,8 +42,5 @@ public class UHC extends CoPlugin {
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
             new MessageHandler()}).forEach(this::registerListener);
-    }
-
-    @Override public void onPluginDisable() /* throws Exception - We ain't throwing shit. */ {
     }
 }
