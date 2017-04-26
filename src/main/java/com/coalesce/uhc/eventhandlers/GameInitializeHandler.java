@@ -53,7 +53,7 @@ public class GameInitializeHandler implements Listener {
         Location where;
         int x, z, y;
         int max = size / 2;
-        int min = Math.abs(size / 2) * -1;
+        int min = Math.abs(size / 2);
         do {
             x = random.nextInt(max + min) - min;
             z = random.nextInt(max + min) - min;
