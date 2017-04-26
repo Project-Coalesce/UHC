@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.logging.Level;
 
@@ -23,6 +22,7 @@ public class UHC extends CoPlugin {
     @Override
     public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
         instance = this;
+        displayName = "CoalesceUHC";
 
 		try {
 			mainConfig = new Gson().fromJson(new FileReader(getDataFolder().getAbsolutePath() + File.separatorChar +
