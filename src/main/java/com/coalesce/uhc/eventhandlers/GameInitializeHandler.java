@@ -44,7 +44,7 @@ public class GameInitializeHandler implements Listener {
         World world = GameState.getGameWorld();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int spreadSize = UHC.getInstance().getMainConfig().getWorldBorderInitialSize();
-        Stream<? extends Player> players = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> !player.getGameMode().equals(GameMode.SPECTATOR));
+        Stream<? extends Player> players = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR);
 
         players.forEach(player -> player.teleport(generateSafe(spreadSize, world, random)));
     }
@@ -57,7 +57,7 @@ public class GameInitializeHandler implements Listener {
         do {
             x = random.nextInt(max + min) - min;
             z = random.nextInt(max + min) - min;
-            y = world.getHighestBlockAt(x, z).getY();
+            y = world.getHighestBlockAt(x, z).getY() + 2;
             where = new Location(world, x, y, z);
         } while (!Blocks.isSafe(where.getBlock().getType()));
         return where;

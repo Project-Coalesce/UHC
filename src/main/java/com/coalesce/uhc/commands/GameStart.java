@@ -45,7 +45,7 @@ public class GameStart {
                     "&e---[ And the game begins! ]---",
                     "&bThere'll be a 10 minute grace period.",
                     "&bAttacking other players during that period is illegal.",
-                    "&bThe world border will shrink for " + time + "s, until it is " + size + "x" + size + ".",
+                    "&bThe world border will shrink for " + time + "min, until it is " + size + "x" + size + ".",
                     "&bCheck the rules by doing &a/rules&b.")
                 .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASEDRUM, 1f, 1f);

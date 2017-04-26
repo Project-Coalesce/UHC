@@ -1,5 +1,6 @@
 package com.coalesce.uhc.eventhandlers;
 
+import static com.coalesce.uhc.utilities.BukkitRunnableWrapper.bukkitRunnable;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.UHC;
 import com.coalesce.uhc.users.Participation;
@@ -19,6 +20,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,8 +47,9 @@ public class JoinQuitHandlers implements Listener {
         if(GameState.current() != GameState.LOBBY){
             event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
                     "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
-            TimerWrapper.schedule(() -> disclassify(event.getPlayer().getUniqueId(), event.getPlayer().getName(),
-                    event.getPlayer().getLocation(), event.getPlayer().getInventory()),
+
+            bukkitRunnable(() -> disclassify(event.getPlayer().getUniqueId(), event.getPlayer().getName(),
+                    event.getPlayer().getLocation(), event.getPlayer().getInventory())).runTaskLater(UHC.getInstance(),
                     TimeUnit.MILLISECONDS.convert(UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds(), TimeUnit.SECONDS));
 
             //Zombie Spawning
@@ -67,7 +70,7 @@ public class JoinQuitHandlers implements Listener {
 
         for(ItemStack cur : inventory.getContents()) if(cur != null) logoffPosition.getWorld().dropItem(logoffPosition, cur);
 
-        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6" + name + " was declassified.")));
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6" + name + " was disqualified.")));
     }
 
     @EventHandler

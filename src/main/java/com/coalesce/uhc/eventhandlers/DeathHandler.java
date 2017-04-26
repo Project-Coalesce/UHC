@@ -29,17 +29,16 @@ public class DeathHandler implements Listener {
 
         UHC.getInstance().getMainConfig().getDeathAction().handlePlayer(event.getEntity(), event.getDeathMessage());
 
-        Stream<? extends Player> survivors = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode()
-                .equals(GameMode.SPECTATOR));
+        long survivors = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).count() - 1;
 
         if (Bukkit.getServer().getOnlinePlayers().stream().allMatch(player -> player.getMetadata("wasAlive").isEmpty())) {
-            event.setDeathMessage(colour("&6First death: " + event.getDeathMessage() + "\n&bThere are " + survivors.count() + " players left."));
+            event.setDeathMessage(colour("&6First death: " + event.getDeathMessage() + "\n&bThere are " + survivors + " players left."));
         } else {
-            event.setDeathMessage(colour("&e" + event.getDeathMessage() + "\n&bThere are " + survivors.count() + " players left."));
+            event.setDeathMessage(colour("&e" + event.getDeathMessage() + "\n&bThere are " + survivors + " players left."));
         }
 
-        if (survivors.count() <= 1) {
-            Player winner = survivors.findFirst().get();
+        if (survivors <= 1) {
+            Player winner = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).findFirst().get();
             GameState.ENDED.setCurrent();
             Bukkit.getServer().getOnlinePlayers().forEach(player -> {
                 Arrays.asList(

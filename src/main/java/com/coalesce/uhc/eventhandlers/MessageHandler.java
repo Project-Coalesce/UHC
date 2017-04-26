@@ -23,6 +23,6 @@ public class MessageHandler implements Listener {
         }
 
         Participation participation = optionalUser.get().getParticipation();
-        event.setFormat(colour(participation.getPrefix()) + " %s: " + ChatColor.WHITE + "%s");
+        event.setFormat(colour(participation.getPrefix()) + "%s: " + ChatColor.WHITE + "%s");
     }
 }
