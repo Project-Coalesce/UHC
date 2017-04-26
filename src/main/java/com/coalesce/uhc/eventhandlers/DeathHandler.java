@@ -33,14 +33,10 @@ public class DeathHandler implements Listener {
                 .equals(GameMode.SPECTATOR));
 
         if (Bukkit.getServer().getOnlinePlayers().stream().allMatch(player -> player.getMetadata("wasAlive").isEmpty())) {
-            event.setDeathMessage(colour("&e- First death: " + event.getDeathMessage()));
-
+            event.setDeathMessage(colour("&6First death: " + event.getDeathMessage() + "\n&bThere are " + survivors.count() + " players left."));
         } else {
-            event.setDeathMessage(colour("&e- " + event.getDeathMessage()));
+            event.setDeathMessage(colour("&e" + event.getDeathMessage() + "\n&bThere are " + survivors.count() + " players left."));
         }
-
-        Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(colour("&cThere are " + survivors.count()
-                + " men standing.")));
 
         if (survivors.count() <= 1) {
             Player winner = survivors.findFirst().get();
