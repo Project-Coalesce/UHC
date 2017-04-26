@@ -3,8 +3,10 @@ package com.coalesce.uhc.commands;
 import com.coalesce.command.CommandContext;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.UHC;
+import com.coalesce.uhc.configuration.MainConfiguration;
 import com.coalesce.uhc.users.Participation;
 import com.coalesce.uhc.users.UserManager;
+import com.coalesce.uhc.utilities.MainConfigWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -34,12 +36,16 @@ public class GameStart {
         GameState.setGameWorld(((Player) context.getSender()).getWorld());
         GameState.STARTING.setCurrent();
 
+        MainConfiguration configuration = UHC.getInstance().getMainConfig();
+        int time = configuration.getWorldBorderShrinkTime();
+        int size = configuration.getWorldBorderFinalShrinkSize();
+
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
             Arrays.asList(
                     "&e---[ And the game begins! ]---",
                     "&bThere'll be a 10 minute grace period.",
                     "&bAttacking other players during that period is illegal.",
-                    "&bIn 2 minutes, the world border will start to shrink.",
+                    "&bThe world border will shrink for " + time + "s, until it is " + size + "x" + size + ".",
                     "&bCheck the rules by doing &a/rules&b.")
                 .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASEDRUM, 1f, 1f);
