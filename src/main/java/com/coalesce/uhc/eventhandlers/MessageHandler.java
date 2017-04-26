@@ -5,6 +5,7 @@ import static com.coalesce.uhc.utilities.Statics.colour;
 import com.coalesce.uhc.users.Participation;
 import com.coalesce.uhc.users.User;
 import com.coalesce.uhc.users.UserManager;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -22,6 +23,6 @@ public class MessageHandler implements Listener {
         }
 
         Participation participation = optionalUser.get().getParticipation();
-        event.setFormat(participation.getPrefix() + " %s: &f%s");
+        event.setFormat(colour(participation.getPrefix()) + " %s: " + ChatColor.WHITE + "%s");
     }
 }

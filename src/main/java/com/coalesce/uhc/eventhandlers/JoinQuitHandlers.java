@@ -42,18 +42,20 @@ public class JoinQuitHandlers implements Listener {
 
     @EventHandler
     public void leave(PlayerQuitEvent event) {
-        event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
-                "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
-        TimerWrapper.schedule(() -> disclassify(event.getPlayer().getUniqueId(), event.getPlayer().getName(),
-                event.getPlayer().getLocation(), event.getPlayer().getInventory()),
-                TimeUnit.MILLISECONDS.convert(UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds(), TimeUnit.SECONDS));
+        if(GameState.current() != GameState.LOBBY){
+            event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
+                    "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
+            TimerWrapper.schedule(() -> disclassify(event.getPlayer().getUniqueId(), event.getPlayer().getName(),
+                    event.getPlayer().getLocation(), event.getPlayer().getInventory()),
+                    TimeUnit.MILLISECONDS.convert(UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds(), TimeUnit.SECONDS));
 
-        //Zombie Spawning
-        Zombie zombie = (Zombie) event.getPlayer().getWorld().spawnEntity(event.getPlayer().getLocation(), EntityType.ZOMBIE);
-        zombie.setCustomName(event.getPlayer().getName());
-        zombie.setCustomNameVisible(true);
-        //TODO Make no AI and invulnerable cough cough Proxi cough cough
-        deadRepresentatives.put(event.getPlayer().getUniqueId(), zombie);
+            //Zombie Spawning
+            Zombie zombie = (Zombie) event.getPlayer().getWorld().spawnEntity(event.getPlayer().getLocation(), EntityType.ZOMBIE);
+            zombie.setCustomName(event.getPlayer().getName());
+            zombie.setCustomNameVisible(true);
+            //TODO Make no AI and invulnerable cough cough Proxi cough cough
+            deadRepresentatives.put(event.getPlayer().getUniqueId(), zombie);
+        }
     }
 
     public void disclassify(UUID id, String name, Location logoffPosition, PlayerInventory inventory) {
@@ -63,7 +65,7 @@ public class JoinQuitHandlers implements Listener {
         logoffPosition.getWorld().strikeLightning(logoffPosition);
         UserManager.getInstance().removeUser(id);
 
-        for(ItemStack cur : inventory.getContents()) logoffPosition.getWorld().dropItem(logoffPosition, cur);
+        for(ItemStack cur : inventory.getContents()) if(cur != null) logoffPosition.getWorld().dropItem(logoffPosition, cur);
 
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6" + name + " was declassified.")));
     }

@@ -50,11 +50,6 @@ public class Message implements Listener {
     }
 
     public void message(CommandContext context) {
-        if (context.getArgs().size() < 2) { // Doesn't need to call hasArgs as it always is a list.
-            context.send(colour("&cYou need to specify a receiver and a message."));
-            return;
-        }
-
         String targetString = context.getArgs().get(0);
         Player target = Bukkit.getPlayer(targetString);
         if (target == null) {
