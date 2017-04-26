@@ -67,7 +67,6 @@ public class GameInitializeHandler implements Listener {
         MainConfiguration config = UHC.getInstance().getMainConfig();
         GameState.getGameWorld().getWorldBorder().setSize(config.getWorldBorderFinalShrinkSize(),
                 TimeUnit.SECONDS.convert(config.getWorldBorderShrinkTime(), TimeUnit.MINUTES));
-        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6The border will shrink until it reaches " + config.getWorldBorderFinalShrinkSize() + " in each direction.")));
     }
 
     @EventHandler public void playerAttackInGrace(EntityDamageByEntityEvent event) {
