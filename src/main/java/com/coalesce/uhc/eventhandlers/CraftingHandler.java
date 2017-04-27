@@ -27,7 +27,7 @@ public class CraftingHandler implements Listener {
                     ++skulls;
                     skull = (PlayerheadItemStack) item;
                 }
-            } else if (item.getType() == Material.GOLDEN_APPLE) {
+            } else if (item.getType() == Material.GOLD_INGOT) {
                 ++gold;
             }
         }
