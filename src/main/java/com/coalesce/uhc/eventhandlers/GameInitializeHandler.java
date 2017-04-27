@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static com.coalesce.uhc.utilities.Statics.colour;
-import static com.coalesce.uhc.utilities.TimerWrapper.schedule;
 
 public class GameInitializeHandler implements Listener {
     @EventHandler
@@ -37,7 +36,7 @@ public class GameInitializeHandler implements Listener {
         spread();
         shrink();
 
-        schedule(this::gracePeriodEnd, TimeUnit.MILLISECONDS.convert(UHC.getInstance().getMainConfig().getGracePeriodMinutes(), TimeUnit.MINUTES));
+        Bukkit.getScheduler().runTaskLater(UHC.getInstance(), this::gracePeriodEnd, 20L*TimeUnit.SECONDS.convert(UHC.getInstance().getMainConfig().getGracePeriodMinutes(), TimeUnit.MINUTES));
     }
 
     private void spread() {
