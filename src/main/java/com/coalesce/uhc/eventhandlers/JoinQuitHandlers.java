@@ -11,15 +11,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -48,7 +51,7 @@ public class JoinQuitHandlers implements Listener {
             event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
                     "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
 
-            bukkitRunnable(() -> disclassify(event.getPlayer().getUniqueId(), event.getPlayer().getName(),
+            bukkitRunnable(() -> disqualified(event.getPlayer().getUniqueId(), event.getPlayer().getName(),
                     event.getPlayer().getLocation(), event.getPlayer().getInventory())).runTaskLater(UHC.getInstance(),
                     TimeUnit.MILLISECONDS.convert(UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds(), TimeUnit.SECONDS));
 
@@ -61,7 +64,7 @@ public class JoinQuitHandlers implements Listener {
         }
     }
 
-    public void disclassify(UUID id, String name, Location logoffPosition, PlayerInventory inventory) {
+    public void disqualified(UUID id, String name, Location logoffPosition, PlayerInventory inventory) {
         if (Bukkit.getServer().getOnlinePlayers().stream().anyMatch(pl -> pl.getUniqueId().equals(id))) return;
 
         if(deadRepresentatives.containsKey(id)) deadRepresentatives.get(id).remove();
@@ -70,6 +73,14 @@ public class JoinQuitHandlers implements Listener {
 
         for(ItemStack cur : inventory.getContents()) if(cur != null) logoffPosition.getWorld().dropItem(logoffPosition, cur);
 
+        long survivors = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).count() - 1;
+
+        if (survivors <= 1) {
+            Player winner = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).findFirst().get();
+            GameState.ENDED.setCurrent();
+            DeathHandler.onGameEnd(winner);
+        }
+
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6" + name + " was disqualified.")));
     }
 
@@ -77,8 +88,9 @@ public class JoinQuitHandlers implements Listener {
     public void playerJoin(PlayerJoinEvent event) {
         Optional<User> joinedUser = null;
         if ((joinedUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId())).isPresent()) {
-            if(joinedUser.get().getParticipation() == Participation.PARTICIPATOR && GameState.current() != GameState.LOBBY){
+            if(joinedUser.get().getParticipation() != Participation.SPECTATOR && GameState.current() != GameState.LOBBY){
                 event.setJoinMessage(colour("&b" + event.getPlayer().getName() + " has reconnected."));
+                deadRepresentatives.get(event.getPlayer().getUniqueId()).remove();
                 deadRepresentatives.remove(event.getPlayer().getUniqueId());
             }
             return;

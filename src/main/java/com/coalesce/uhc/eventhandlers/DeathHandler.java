@@ -18,6 +18,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class DeathHandler implements Listener {
@@ -40,17 +41,23 @@ public class DeathHandler implements Listener {
         if (survivors <= 1) {
             Player winner = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).findFirst().get();
             GameState.ENDED.setCurrent();
-            Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-                Arrays.asList(
-                        "&e---[ Game over! ]---",
-                        "&b" + winner.getName() + "&a has won the game!",
-                        "&bThank you for participating!")
-                    .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
-                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_BREAK, 1f, 1f);
-            });
+            onGameEnd(winner);
         }
 
         event.getEntity().setMetadata("wasAlive", new FixedMetadataValue(UHC.getInstance(), "true"));
         event.getEntity().getWorld().strikeLightning(event.getEntity().getLocation());
+    }
+
+    public static void onGameEnd(Player winner) {
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+            Arrays.asList(
+                    "&e---[ Game over! ]---",
+                    "&b" + winner.getName() + "&a has won the game!",
+                    "&bThank you for participating!")
+                    .forEach(curs -> player.sendMessage(UHC.getInstance().getFormatter().centerString(colour(curs))));
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_BREAK, 1f, 1f);
+            player.teleport(winner);
+        });
+        GameState.getGameWorld().getWorldBorder().setSize(30000000);
     }
 }
