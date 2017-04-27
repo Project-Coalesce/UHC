@@ -55,6 +55,6 @@ public class UHC extends CoPlugin {
 
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
-                new MessageHandler()}).forEach(this::registerListener);
+                new MessageHandler(), new HeadEatHandler()}).forEach(this::registerListener);
     }
 }
