@@ -59,7 +59,7 @@ public class GameInitializeHandler implements Listener {
             z = random.nextInt(max + min) - min;
             y = world.getHighestBlockAt(x, z).getY();
             where = new Location(world, x, y, z);
-        } while (!Blocks.isSafe(where.getBlock().getType()));
+        } while (!Blocks.isSafe(where.getBlock().getType())); // TODO: Add check if in lobby area.
         return where.add(0d, 2d, 0d);
     }
 
