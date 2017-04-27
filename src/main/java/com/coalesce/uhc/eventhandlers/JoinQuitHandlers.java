@@ -44,7 +44,7 @@ public class JoinQuitHandlers implements Listener {
 
     @EventHandler
     public void leave(PlayerQuitEvent event) {
-        if(GameState.current() != GameState.LOBBY){
+        if(GameState.current() != GameState.LOBBY && event.getPlayer().getGameMode() != GameMode.SPECTATOR){
             event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
                     "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
 
