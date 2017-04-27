@@ -24,6 +24,7 @@ public class CommandHandler {
         commands.add(new CommandBuilder(plugin, "Spectate").minArgs(0).maxArgs(0).description("Sets participation to spectator").usage("/spec").aliases("spec").executor(new Spectate()::spectate).build());
         commands.add(new CommandBuilder(plugin, "Rules").minArgs(0).maxArgs(0).description("Shows the rules specified in rules.json.").usage("/rules").aliases("rules").executor(new Rules()::rules).
                 build());
+        commands.add(new CommandBuilder(plugin, "Pregen").minArgs(0).maxArgs(0).description("Pregenerates the area specified within the worldborder.").usage("/pregen").aliases("pregenerate").executor(new Pregen()::pregen).build());
 
         commands.forEach(cur -> {
             try{
