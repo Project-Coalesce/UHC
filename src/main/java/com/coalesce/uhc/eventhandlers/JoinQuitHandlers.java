@@ -78,7 +78,7 @@ public class JoinQuitHandlers implements Listener {
             DeathHandler.onGameEnd(winner);
         }
 
-        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6" + name + " was disqualified.")));
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(colour("&6" + name + " was disqualified.\n&bThere are " + survivors + " players left.")));
     }
 
     @EventHandler
