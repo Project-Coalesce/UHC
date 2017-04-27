@@ -71,7 +71,7 @@ public class GameInitializeHandler implements Listener {
 
     @EventHandler public void playerAttackInGrace(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
-            if (GameState.current() != GameState.STARTED) {
+            if (GameState.current() != GameState.STARTED) { // Also disables in lobby.
                 event.setCancelled(true);
                 event.getDamager().sendMessage(colour("&cPvP is currently disabled."));
             }

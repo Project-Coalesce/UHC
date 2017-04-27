@@ -1,5 +1,8 @@
 package com.coalesce.uhc.users;
 
+import lombok.Getter;
+import org.bukkit.Bukkit;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +26,7 @@ public class UserManager {
         return ret;
     }
 
+    @Getter private final User empty = new User(Bukkit.getOfflinePlayer(new UUID(475826800676128550L, -6503483008858150155L)), Participation.PARTICIPATOR);
     private final Map<UUID, User> participators;
 
     private UserManager() {
