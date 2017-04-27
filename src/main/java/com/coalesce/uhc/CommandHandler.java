@@ -25,15 +25,7 @@ public class CommandHandler {
         commands.add(new CommandBuilder(plugin, "Rules").minArgs(0).maxArgs(0).description("Shows the rules specified in rules.json.").usage("/rules").aliases("rules").executor(new Rules()::rules).
                 build());
 
-        commands.forEach(cur -> {
-            try{
-                plugin.addCommand(cur);
-                plugin.getLogger().log(Level.INFO, "Registered " + cur.getName());
-            }catch(Exception e){
-                plugin.getLogger().log(Level.INFO, "Failed to register " + cur.getName());
-                e.printStackTrace();
-            }
-        });
+        commands.forEach(plugin::addCommand);
     }
 
 }
