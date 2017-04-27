@@ -2,6 +2,7 @@ package com.coalesce.uhc.users;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,5 +47,9 @@ public class UserManager {
 
     public Optional<User> getUser(UUID uuid) {
         return Optional.ofNullable(participators.get(uuid));
+    }
+
+    public Optional<User> getUser(OfflinePlayer player) {
+        return getUser(player.getUniqueId());
     }
 }
