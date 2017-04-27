@@ -57,10 +57,10 @@ public class GameInitializeHandler implements Listener {
         do {
             x = random.nextInt(max + min) - min;
             z = random.nextInt(max + min) - min;
-            y = world.getHighestBlockAt(x, z).getY() + 2;
+            y = world.getHighestBlockAt(x, z).getY();
             where = new Location(world, x, y, z);
         } while (!Blocks.isSafe(where.getBlock().getType()));
-        return where;
+        return where.add(0d, 2d, 0d);
     }
 
     private void shrink() {
