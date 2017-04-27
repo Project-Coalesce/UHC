@@ -36,24 +36,10 @@
             <resource>
                 <targetPath>.</targetPath>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>plugin.yml</include>
-                </includes>
-                <excludes>
-                    <exclude>*</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <targetPath>.</targetPath>
-                <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <includes>
                     <include>*</include>
                 </includes>
-                <excludes>
-                    <exclude>plugin.yml</exclude>
-                </excludes>
             </resource>
         </resources>
     </build>
