@@ -1,5 +1,9 @@
 package com.coalesce.uhc.users;
 
+import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,11 +27,14 @@ public class UserManager {
         return ret;
     }
 
+    @Getter private final User empty = new User(Bukkit.getOfflinePlayer(new UUID(475826800676128550L, -6503483008858150155L)), Participation.PARTICIPATOR);
     private final Map<UUID, User> participators;
 
     private UserManager() {
         participators = new HashMap<>();
     }
+
+    public void removeUser(UUID uid) { this.participators.remove(uid); }
 
     /**
      * Used for both updating user objects and for adding new ones.
@@ -40,5 +47,9 @@ public class UserManager {
 
     public Optional<User> getUser(UUID uuid) {
         return Optional.ofNullable(participators.get(uuid));
+    }
+
+    public Optional<User> getUser(OfflinePlayer player) {
+        return getUser(player.getUniqueId());
     }
 }

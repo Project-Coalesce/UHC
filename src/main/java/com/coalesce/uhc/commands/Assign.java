@@ -22,11 +22,6 @@ public class Assign {
             return;
         }
 
-        if (context.getArgs().size() != 2) {
-            context.send(colour("&cYou need to specify a user and a participation to assign."));
-            return;
-        }
-
         String targetString = context.getArgs().get(0);
         Player target = Bukkit.getPlayer(targetString);
         if (target == null) {

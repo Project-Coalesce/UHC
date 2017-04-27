@@ -1,0 +1,6 @@
+name: CoalesceUHC
+version: 1.0
+description: UHC plugin
+author: ProjectCoalesce
+main: com.coalesce.uhc.UHC
+depend: [CoalesceCore]

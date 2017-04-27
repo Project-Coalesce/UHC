@@ -4,6 +4,6 @@ import org.bukkit.Material;
 
 public class Blocks {
     public static boolean isSafe(Material material) {
-        return !material.hasGravity() && material.isSolid();
+        return !(material == Material.CACTUS || material.isTransparent()) && material.isSolid();
     }
 }

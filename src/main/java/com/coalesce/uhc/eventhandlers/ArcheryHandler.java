@@ -12,13 +12,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.math.BigDecimal;
 
 public class ArcheryHandler implements Listener {
-    @EventHandler public void playerShotEvent(EntityDamageByEntityEvent event) {
+    @EventHandler
+    public void playerShotEvent(final EntityDamageByEntityEvent event) {
         if (GameState.current() == GameState.LOBBY || GameState.current() == GameState.ENDED) {
             return;
         }
 
         if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && event.getDamager() instanceof Arrow &&
-                ((Arrow) event.getDamager()).getShooter() instanceof Player) {
+                ((Arrow) event.getDamager()).getShooter() instanceof Player && event.getEntity() instanceof Player) {
             Player shot = (Player) event.getEntity();
             Player shooter = (Player) ((Arrow) event.getDamager()).getShooter();
             shooter.sendMessage(ChatColor.GRAY + "➵ " + ChatColor.AQUA + shot.getName() + " " + ChatColor.RED +

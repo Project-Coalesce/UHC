@@ -1,8 +1,9 @@
 package com.coalesce.uhc.commands;
 
 import com.coalesce.command.CommandContext;
-import com.coalesce.command.CommandExecutor;
 import com.coalesce.uhc.UHC;
+import com.coalesce.uhc.users.Participation;
+import com.coalesce.uhc.users.UserManager;
 import com.coalesce.uhc.utilities.Conditionals;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -25,8 +26,9 @@ public class Message implements Listener {
         UHC.getInstance().registerListener(this);
     }
 
-    @EventHandler public void leave(PlayerQuitEvent event) {
-        if(lastMessaged.containsKey(event.getPlayer())) lastMessaged.remove(event.getPlayer());
+    @EventHandler
+    public void leave(PlayerQuitEvent event) {
+        if (lastMessaged.containsKey(event.getPlayer())) lastMessaged.remove(event.getPlayer());
     }
 
     public void reply(CommandContext context) {
@@ -49,11 +51,6 @@ public class Message implements Listener {
     }
 
     public void message(CommandContext context) {
-        if (context.getArgs().size() < 2) { // Doesn't need to call hasArgs as it always is a list.
-            context.send(colour("&cYou need to specify a receiver and a message."));
-            return;
-        }
-
         String targetString = context.getArgs().get(0);
         Player target = Bukkit.getPlayer(targetString);
         if (target == null) {
@@ -67,11 +64,13 @@ public class Message implements Listener {
             return;
         }
 
-        StringBuilder finalMessage = new StringBuilder();
-        context.getArgs().subList(1, context.getArgs().size()).forEach(arg -> finalMessage.append(arg + " "));
+        String finalMessage = String.join(" ", context.getArgs().subList(1, context.getArgs().size()));
 
-        target.sendMessage(colour("&f<" + context.getSender().getName() + "&f -> " + target.getName() + "&f> " + finalMessage));
-        context.send(colour("&f<" + context.getSender().getName() + "&f -> " + target.getName() + "&f> " + finalMessage));
+        target.sendMessage(colour("&f<" + context.getSender().getName() + "&f -> Me&f> ") + finalMessage);
+        context.send(colour("&f<Me -> " + target.getName() + "&f> ") + finalMessage);
+
+        Bukkit.getOnlinePlayers().stream().filter(it -> UserManager.getInstance().getUser(it.getUniqueId()).orElseThrow(() -> new RuntimeException("An offline player is in Bukkit#getOnlinePlayers.")).getParticipation() == Participation.ADMIN)
+                .forEach(it -> it.sendMessage(colour("&f<" + context.getSender().getName() + " -> " + target.getName() + "> ") + finalMessage));
 
         lastMessaged.put(context.getSender(), target);
     }

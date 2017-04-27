@@ -1,20 +1,19 @@
 package com.coalesce.uhc.configuration;
 
-import static com.coalesce.uhc.utilities.Statics.colour;
 import com.coalesce.uhc.users.Participation;
 import com.coalesce.uhc.users.User;
 import com.coalesce.uhc.users.UserManager;
-import com.coalesce.uhc.utilities.Enums;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
+import static com.coalesce.uhc.utilities.Statics.colour;
+
 public enum DeathAction {
     GAMEMODE() {
         @Override protected void handle(Player player, String deathMesasge) {
-            if (player.isOp()) {
+            if (UserManager.getInstance().getUser(player.getUniqueId()).orElse(UserManager.getInstance().getEmpty()).getParticipation() == Participation.ADMIN) {
                 player.sendMessage(colour("&cYou'll now be in spectator mode. Enter a player's POV if you want to punish them."));
             } else {
                 player.sendMessage(colour("&cYou'll now be in spectator mode. Remember: Ghosting is not allowed!"));
@@ -35,7 +34,9 @@ public enum DeathAction {
     };
 
     public void handlePlayer(Player player, String message) {
-        // TODO: Check if player is ADMIN, if so, set to spectator no matter what.
+        if (UserManager.getInstance().getUser(player.getUniqueId()).orElseThrow(() -> new RuntimeException("A user was asked for but hasn't logged in while online.")).getParticipation() == Participation.ADMIN) {
+            GAMEMODE.handle(player, message); // Admins shall never be death banned.
+        }
         handle(player, message);
     }
 
