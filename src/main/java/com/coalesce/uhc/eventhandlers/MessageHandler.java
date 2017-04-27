@@ -1,7 +1,6 @@
 package com.coalesce.uhc.eventhandlers;
 
-import static com.coalesce.uhc.utilities.Statics.colour;
-
+import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.users.Participation;
 import com.coalesce.uhc.users.User;
 import com.coalesce.uhc.users.UserManager;
@@ -12,14 +11,15 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Optional;
 
+import static com.coalesce.uhc.utilities.Statics.colour;
+
 public class MessageHandler implements Listener {
     @EventHandler
-    public void onMessage(AsyncPlayerChatEvent event) {
+    public void onMessage(final AsyncPlayerChatEvent event) {
         Optional<User> optionalUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId());
         if (!optionalUser.isPresent()) {
-            event.setCancelled(true);
-            event.getPlayer().sendMessage(colour("&cWe haven't loaded your profile yet, hold on..."));
-            return;
+            optionalUser = Optional.of(new User(event.getPlayer(), GameState.current() == GameState.STARTED ? Participation.SPECTATOR : Participation.PARTICIPATOR));
+            UserManager.getInstance().addUser(optionalUser.get());
         }
 
         Participation participation = optionalUser.get().getParticipation();
