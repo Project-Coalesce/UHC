@@ -26,15 +26,7 @@ public class CommandHandler {
                 build());
         commands.add(new CommandBuilder(plugin, "Pregen").minArgs(0).maxArgs(0).description("Pregenerates the area specified within the worldborder.").usage("/pregen").aliases("pregenerate").executor(new Pregen()::pregen).build());
 
-        commands.forEach(cur -> {
-            try{
-                plugin.addCommand(cur);
-                plugin.getLogger().log(Level.INFO, "Registered " + cur.getName());
-            }catch(Exception e){
-                plugin.getLogger().log(Level.INFO, "Failed to register " + cur.getName());
-                e.printStackTrace();
-            }
-        });
+        commands.forEach(plugin::addCommand);
     }
 
 }
