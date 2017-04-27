@@ -35,7 +35,8 @@ public class JoinQuitHandlers implements Listener {
     @EventHandler
     public void prejoin(final AsyncPlayerPreLoginEvent event){
         if (!UserManager.getInstance().getUser(event.getUniqueId()).isPresent() &&
-                GameState.current() != GameState.LOBBY && UHC.getInstance().getMainConfig().isRoundBanDead()) {
+                (GameState.current() != GameState.LOBBY && GameState.current() != GameState.STARTING)
+                && UHC.getInstance().getMainConfig().isRoundBanDead()) {
             event.setKickMessage(colour("&cThe round has already started!"));
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
         }
