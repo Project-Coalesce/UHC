@@ -32,7 +32,7 @@ public class UHC extends CoPlugin {
 
             mainConfig = new MainConfiguration(
                     false, 2000, 10, 120, 100,
-                    30
+                    30, 20
             );
             MainConfigWriter.writeMainConfig(getDataFolder(), mainConfig);
         }
