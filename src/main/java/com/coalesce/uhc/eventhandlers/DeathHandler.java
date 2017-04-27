@@ -7,6 +7,7 @@ import com.coalesce.chat.CoFormatter;
 import com.coalesce.gui.ItemBuilder;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.UHC;
+import com.coalesce.uhc.utilities.PlayerheadItemStack;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,7 +47,9 @@ public class DeathHandler implements Listener {
 
         event.getEntity().setMetadata("wasAlive", new FixedMetadataValue(UHC.getInstance(), "true"));
         event.getEntity().getWorld().strikeLightning(event.getEntity().getLocation());
-        event.getDrops().add(new ItemBuilder(Material.SKULL_ITEM).displayName(colour("&a" + event.getEntity().getName() + "'s head")).build()); //TODO: Wait until the skull builder is in master to use that
+        event.getDrops().add(new PlayerheadItemStack(new ItemBuilder(Material.SKULL_ITEM).displayName(colour("&a" + event.getEntity().getName() + "'s head")).build(), false,
+                event.getEntity().getName()));
+        //TODO: Wait until the skull builder is in master to use that
     }
 
     public static void onGameEnd(Player winner) {
