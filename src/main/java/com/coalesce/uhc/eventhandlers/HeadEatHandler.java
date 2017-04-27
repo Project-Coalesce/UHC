@@ -16,7 +16,7 @@ import static com.coalesce.uhc.utilities.Statics.colour;
 
 public class HeadEatHandler implements Listener {
     @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
+    public void onInteract(final PlayerInteractEvent event) {
         if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) return;
 
         ItemStack item = event.getItem();

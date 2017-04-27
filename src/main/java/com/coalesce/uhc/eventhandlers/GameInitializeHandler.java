@@ -21,7 +21,7 @@ import static com.coalesce.uhc.utilities.TimerWrapper.schedule;
 
 public class GameInitializeHandler implements Listener {
     @EventHandler
-    public void gameInitialize(StateChangeEvent initStateHandle) {
+    public void gameInitialize(final StateChangeEvent initStateHandle) {
         if (initStateHandle.getTo() != GameState.STARTING) return;
 
         //Initialize Everything
@@ -69,7 +69,7 @@ public class GameInitializeHandler implements Listener {
                 TimeUnit.SECONDS.convert(config.getWorldBorderShrinkTime(), TimeUnit.MINUTES));
     }
 
-    @EventHandler public void playerAttackInGrace(EntityDamageByEntityEvent event) {
+    @EventHandler public void playerAttackInGrace(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             if (GameState.current() != GameState.STARTED) { // Also disables in lobby.
                 event.setCancelled(true);

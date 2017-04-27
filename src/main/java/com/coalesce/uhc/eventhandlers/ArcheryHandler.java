@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 public class ArcheryHandler implements Listener {
     @EventHandler
-    public void playerShotEvent(EntityDamageByEntityEvent event) {
+    public void playerShotEvent(final EntityDamageByEntityEvent event) {
         if (GameState.current() == GameState.LOBBY || GameState.current() == GameState.ENDED) {
             return;
         }

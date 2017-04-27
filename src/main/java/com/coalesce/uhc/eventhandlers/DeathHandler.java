@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 public class DeathHandler implements Listener {
     @EventHandler
-    public void playerDiedEvent(PlayerDeathEvent event) {
+    public void playerDiedEvent(final PlayerDeathEvent event) {
         if (GameState.current() == GameState.LOBBY || GameState.current() == GameState.ENDED) {
             return;
         }

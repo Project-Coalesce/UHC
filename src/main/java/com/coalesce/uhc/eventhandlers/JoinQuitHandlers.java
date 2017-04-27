@@ -1,12 +1,10 @@
 package com.coalesce.uhc.eventhandlers;
 
-import static com.coalesce.uhc.utilities.BukkitRunnableWrapper.bukkitRunnable;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.UHC;
 import com.coalesce.uhc.users.Participation;
 import com.coalesce.uhc.users.User;
 import com.coalesce.uhc.users.UserManager;
-import com.coalesce.uhc.utilities.TimerWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -15,15 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,13 +26,14 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static com.coalesce.uhc.utilities.BukkitRunnableWrapper.bukkitRunnable;
 import static com.coalesce.uhc.utilities.Statics.colour;
 
 public class JoinQuitHandlers implements Listener {
     private Map<UUID, Zombie> deadRepresentatives = new HashMap<>();
 
     @EventHandler
-    public void prejoin(AsyncPlayerPreLoginEvent event){
+    public void prejoin(final AsyncPlayerPreLoginEvent event){
         if (!UserManager.getInstance().getUser(event.getUniqueId()).isPresent() &&
                 GameState.current() != GameState.LOBBY && UHC.getInstance().getMainConfig().isRoundBanDead()) {
             event.setKickMessage(colour("&cThe round has already started!"));
@@ -46,7 +42,7 @@ public class JoinQuitHandlers implements Listener {
     }
 
     @EventHandler
-    public void leave(PlayerQuitEvent event) {
+    public void leave(final PlayerQuitEvent event) {
         if(GameState.current() != GameState.LOBBY && event.getPlayer().getGameMode() != GameMode.SPECTATOR){
             event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
                     "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
@@ -85,8 +81,8 @@ public class JoinQuitHandlers implements Listener {
     }
 
     @EventHandler
-    public void playerJoin(PlayerJoinEvent event) {
-        Optional<User> joinedUser = null;
+    public void playerJoin(final PlayerJoinEvent event) {
+        Optional<User> joinedUser;
         if ((joinedUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId())).isPresent()) {
             if(joinedUser.get().getParticipation() != Participation.SPECTATOR && GameState.current() != GameState.LOBBY){
                 event.setJoinMessage(colour("&b" + event.getPlayer().getName() + " has reconnected."));
@@ -107,7 +103,7 @@ public class JoinQuitHandlers implements Listener {
     }
 
     @EventHandler
-    public void gameModeChange(PlayerGameModeChangeEvent event) {
+    public void gameModeChange(final PlayerGameModeChangeEvent event) {
         Optional<User> optionalUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId());
         User user = optionalUser.orElseGet(() -> new User(event.getPlayer(), Participation.SPECTATOR));
         if (event.getPlayer().isOp() || event.getNewGameMode() == GameMode.CREATIVE) {
