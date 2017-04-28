@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public abstract class CustomEnchant extends Enchantment {
     public CustomEnchant(int id) {
         super(id);
@@ -31,7 +33,7 @@ public abstract class CustomEnchant extends Enchantment {
 
     @Override
     public boolean canEnchantItem(ItemStack item) { // Not final due to override-able
-        return false;
+        return getItemTarget().includes(item.getType()) && Arrays.asList(applyable()).contains(item.getType());
     }
 
     public Material[] applyable() { // Should be used for e.g. Curse of Venom which is only for swords.
