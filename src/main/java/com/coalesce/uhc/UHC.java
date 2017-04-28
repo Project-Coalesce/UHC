@@ -60,7 +60,7 @@ public class UHC extends CoPlugin {
 
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
-                new MessageHandler(), new HeadEatHandler(), new CraftingHandler()}).forEach(this::registerListener);
+                new MessageHandler(), new HeadEatHandler(), new CraftingHandler(), new EnchantmentHandler()}).forEach(this::registerListener);
         try {
             Field accept = Enchantment.class.getDeclaredField("acceptingNew");
             accept.setAccessible(true);
