@@ -36,10 +36,20 @@ public abstract class CustomEnchant extends Enchantment {
         return getItemTarget().includes(item.getType()) && Arrays.asList(applyable()).contains(item.getType());
     }
 
+    /**
+     * Returns the materials the enchantment is able to be applied to.
+     *
+     * @return The materials this can be applied to.
+     */
     public Material[] applyable() { // Should be used for e.g. Curse of Venom which is only for swords.
         return Material.values();
     }
 
+    /**
+     * Returns the enchantments the item has to have before allowing this to be offered and actually enchanted.
+     *
+     * @return The enchantments required.
+     */
     public Enchantment[] requirements() {
         return new Enchantment[0];
     }
