@@ -9,7 +9,8 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class CraftingHandler implements Listener {
-    @EventHandler public void prepareCraft(final PrepareItemCraftEvent event) {
+    @EventHandler
+    public void prepareCraft(final PrepareItemCraftEvent event) {
         Recipe recipe = event.getRecipe();
         if (event.isRepair() || recipe instanceof MerchantRecipe || recipe instanceof FurnaceRecipe) {
             return;

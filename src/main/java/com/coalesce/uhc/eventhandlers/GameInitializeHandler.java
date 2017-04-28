@@ -36,7 +36,7 @@ public class GameInitializeHandler implements Listener {
         spread();
         shrink();
 
-        Bukkit.getScheduler().runTaskLater(UHC.getInstance(), this::gracePeriodEnd, 20L*TimeUnit.SECONDS.convert(UHC.getInstance().getMainConfig().getGracePeriodMinutes(), TimeUnit.MINUTES));
+        Bukkit.getScheduler().runTaskLater(UHC.getInstance(), this::gracePeriodEnd, 20L * TimeUnit.SECONDS.convert(UHC.getInstance().getMainConfig().getGracePeriodMinutes(), TimeUnit.MINUTES));
     }
 
     private void spread() {
@@ -68,7 +68,8 @@ public class GameInitializeHandler implements Listener {
                 TimeUnit.SECONDS.convert(config.getWorldBorderShrinkTime(), TimeUnit.MINUTES));
     }
 
-    @EventHandler public void playerAttackInGrace(final EntityDamageByEntityEvent event) {
+    @EventHandler
+    public void playerAttackInGrace(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             if (GameState.current() != GameState.STARTED) { // Also disables in lobby.
                 event.setCancelled(true);
@@ -81,7 +82,8 @@ public class GameInitializeHandler implements Listener {
         GameState.getGameWorld().setPVP(true);
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.sendMessage(colour("&cThe grace period has ended, PvP is now allowed!"));
-            player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);;
+            player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
+            ;
         });
         GameState.STARTED.setCurrent();
     }

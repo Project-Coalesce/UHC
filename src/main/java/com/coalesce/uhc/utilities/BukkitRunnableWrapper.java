@@ -4,9 +4,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class BukkitRunnableWrapper {
     public static BukkitRunnable bukkitRunnable(final Runnable r) {
-        return new BukkitRunnable(){
+        return new BukkitRunnable() {
             @Override
-            public void run(){
+            public void run() {
                 r.run();
             }
         };

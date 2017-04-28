@@ -3,7 +3,6 @@ package com.coalesce.uhc.customevents;
 import com.coalesce.uhc.GameState;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.World;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -17,7 +16,8 @@ public class StateChangeEvent extends Event {
         return handlerList;
     }
 
-    @Override public HandlerList getHandlers() {
+    @Override
+    public HandlerList getHandlers() {
         return handlerList;
     }
 }

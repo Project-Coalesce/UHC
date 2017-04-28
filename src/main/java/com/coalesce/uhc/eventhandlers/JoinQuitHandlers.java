@@ -33,7 +33,7 @@ public class JoinQuitHandlers implements Listener {
     private Map<UUID, Zombie> deadRepresentatives = new HashMap<>();
 
     @EventHandler
-    public void prejoin(final AsyncPlayerPreLoginEvent event){
+    public void prejoin(final AsyncPlayerPreLoginEvent event) {
         if (!UserManager.getInstance().getUser(event.getUniqueId()).isPresent() &&
                 (GameState.current() != GameState.LOBBY && GameState.current() != GameState.STARTING)
                 && UHC.getInstance().getMainConfig().isRoundBanDead()) {
@@ -44,7 +44,7 @@ public class JoinQuitHandlers implements Listener {
 
     @EventHandler
     public void leave(final PlayerQuitEvent event) {
-        if(GameState.current() != GameState.LOBBY && event.getPlayer().getGameMode() != GameMode.SPECTATOR){
+        if (GameState.current() != GameState.LOBBY && event.getPlayer().getGameMode() != GameMode.SPECTATOR) {
             event.setQuitMessage(colour("&6" + event.getPlayer().getName() + " has quit! " +
                     "They have " + UHC.getInstance().getMainConfig().getDisconnectGracePeriodSeconds() + "s to reconnect."));
 
@@ -64,11 +64,12 @@ public class JoinQuitHandlers implements Listener {
     public void disqualified(UUID id, String name, Location logoffPosition, PlayerInventory inventory) {
         if (Bukkit.getServer().getOnlinePlayers().stream().anyMatch(pl -> pl.getUniqueId().equals(id))) return;
 
-        if(deadRepresentatives.containsKey(id)) deadRepresentatives.get(id).remove();
+        if (deadRepresentatives.containsKey(id)) deadRepresentatives.get(id).remove();
         logoffPosition.getWorld().strikeLightning(logoffPosition);
         UserManager.getInstance().removeUser(id);
 
-        for(ItemStack cur : inventory.getContents()) if(cur != null) logoffPosition.getWorld().dropItem(logoffPosition, cur);
+        for (ItemStack cur : inventory.getContents())
+            if (cur != null) logoffPosition.getWorld().dropItem(logoffPosition, cur);
 
         long survivors = Bukkit.getServer().getOnlinePlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).count() - 1;
 
@@ -85,7 +86,7 @@ public class JoinQuitHandlers implements Listener {
     public void playerJoin(final PlayerJoinEvent event) {
         Optional<User> joinedUser;
         if ((joinedUser = UserManager.getInstance().getUser(event.getPlayer().getUniqueId())).isPresent()) {
-            if(joinedUser.get().getParticipation() != Participation.SPECTATOR && GameState.current() != GameState.LOBBY){
+            if (joinedUser.get().getParticipation() != Participation.SPECTATOR && GameState.current() != GameState.LOBBY) {
                 event.setJoinMessage(colour("&b" + event.getPlayer().getName() + " has reconnected."));
                 deadRepresentatives.get(event.getPlayer().getUniqueId()).remove();
                 deadRepresentatives.remove(event.getPlayer().getUniqueId());
@@ -94,11 +95,11 @@ public class JoinQuitHandlers implements Listener {
         }
 
         User user = new User(event.getPlayer(), GameState.current() == GameState.LOBBY ? Participation.PARTICIPATOR :
-            Participation.SPECTATOR);
+                Participation.SPECTATOR);
 
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE || event.getPlayer().isOp()) {
             user.setParticipation(Participation.ADMIN);
-        } else if(GameState.current() != GameState.LOBBY) event.getPlayer().setGameMode(GameMode.SPECTATOR);
+        } else if (GameState.current() != GameState.LOBBY) event.getPlayer().setGameMode(GameMode.SPECTATOR);
 
         UserManager.getInstance().addUser(user);
     }

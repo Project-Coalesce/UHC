@@ -6,13 +6,13 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MainConfiguration { // To be used by Google JSON (GSON).
-	private boolean roundBanDead;
-	private int worldBorderInitialSize;
-	private int gracePeriodMinutes;
-	private int worldBorderShrinkTime;
-	private int worldBorderFinalShrinkSize;
-	private int disconnectGracePeriodSeconds;
-	private int gameEndExtraSeconds;
+    private boolean roundBanDead;
+    private int worldBorderInitialSize;
+    private int gracePeriodMinutes;
+    private int worldBorderShrinkTime;
+    private int worldBorderFinalShrinkSize;
+    private int disconnectGracePeriodSeconds;
+    private int gameEndExtraSeconds;
 
     private int headRegenerationAmplifier;
     private int headRegenerationDuration;
@@ -25,6 +25,6 @@ public class MainConfiguration { // To be used by Google JSON (GSON).
     private int goldenHeadAbsorptionDuration;
 
     public DeathAction getDeathAction() {
-		return roundBanDead ? DeathAction.BAN : DeathAction.GAMEMODE;
-	}
+        return roundBanDead ? DeathAction.BAN : DeathAction.GAMEMODE;
+    }
 }

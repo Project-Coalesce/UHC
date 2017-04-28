@@ -19,7 +19,8 @@ public class MessageSentEvent extends Event {
         return handlerList;
     }
 
-    @Override public HandlerList getHandlers() {
+    @Override
+    public HandlerList getHandlers() {
         return handlerList;
     }
 }

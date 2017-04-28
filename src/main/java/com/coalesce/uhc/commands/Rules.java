@@ -12,13 +12,13 @@ import java.util.logging.Level;
 
 import static com.coalesce.uhc.utilities.Statics.colour;
 
-public class Rules{
+public class Rules {
     private List<String> strings;
 
     public Rules() {
         strings = new ArrayList<>();
         strings.add("&e---[ Rules ]---");
-        try (FileReader reader = new FileReader(new File(UHC.getInstance().getDataFolder(), "rules.json"))){
+        try (FileReader reader = new FileReader(new File(UHC.getInstance().getDataFolder(), "rules.json"))) {
             strings.addAll(UHC.getInstance().getGson().fromJson(reader, strings.getClass()));
         } catch (IOException e) {
             UHC.getInstance().getLogger().log(Level.WARNING, "Add a rules.json file to the UHC directory for the /rules command.");

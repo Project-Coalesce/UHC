@@ -1,7 +1,5 @@
 package com.coalesce.uhc.commands;
 
-import static com.coalesce.uhc.utilities.Statics.colour;
-
 import com.coalesce.command.CommandContext;
 import com.coalesce.uhc.GameState;
 import com.coalesce.uhc.users.Participation;
@@ -10,6 +8,8 @@ import com.coalesce.uhc.users.UserManager;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
+
+import static com.coalesce.uhc.utilities.Statics.colour;
 
 
 public class Spectate {

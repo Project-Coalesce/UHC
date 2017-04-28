@@ -10,7 +10,7 @@ public class MainConfigWriter {
     public static void writeMainConfig(File dataFolder, MainConfiguration mainConfiguration) {
         try {
             File file = new File(dataFolder.getAbsolutePath() + File.separatorChar + "config.json");
-            if(!file.getParentFile().exists()) file.getParentFile().mkdirs();
+            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
             file.createNewFile();
 
             String json = new Gson().toJson(mainConfiguration);

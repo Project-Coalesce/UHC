@@ -23,7 +23,7 @@ public class ArcheryHandler implements Listener {
             Player shot = (Player) event.getEntity();
             Player shooter = (Player) ((Arrow) event.getDamager()).getShooter();
             shooter.sendMessage(ChatColor.GRAY + "➵ " + ChatColor.AQUA + shot.getName() + " " + ChatColor.RED +
-                new BigDecimal(shot.getHealth() / 2).setScale(1, BigDecimal.ROUND_HALF_UP));
+                    new BigDecimal(shot.getHealth() / 2).setScale(1, BigDecimal.ROUND_HALF_UP));
         }
     }
 }

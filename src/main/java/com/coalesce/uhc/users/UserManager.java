@@ -12,6 +12,11 @@ import java.util.UUID;
 public class UserManager {
     private static final Object lock = new Object();
     private static UserManager userManager;
+    @Getter private final User empty = new User(Bukkit.getOfflinePlayer(new UUID(475826800676128550L, -6503483008858150155L)), Participation.PARTICIPATOR);
+    private final Map<UUID, User> participators;
+    private UserManager() {
+        participators = new HashMap<>();
+    }
 
     public static UserManager getInstance() {
         UserManager ret = userManager;
@@ -27,14 +32,9 @@ public class UserManager {
         return ret;
     }
 
-    @Getter private final User empty = new User(Bukkit.getOfflinePlayer(new UUID(475826800676128550L, -6503483008858150155L)), Participation.PARTICIPATOR);
-    private final Map<UUID, User> participators;
-
-    private UserManager() {
-        participators = new HashMap<>();
+    public void removeUser(UUID uid) {
+        this.participators.remove(uid);
     }
-
-    public void removeUser(UUID uid) { this.participators.remove(uid); }
 
     /**
      * Used for both updating user objects and for adding new ones.
