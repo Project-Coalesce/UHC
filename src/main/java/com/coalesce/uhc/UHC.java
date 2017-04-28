@@ -2,17 +2,22 @@ package com.coalesce.uhc;
 
 import com.coalesce.plugin.CoPlugin;
 import com.coalesce.uhc.configuration.MainConfiguration;
+import com.coalesce.uhc.enchantments.CustomEnchant;
+import com.coalesce.uhc.enchantments.Vanishment;
+import com.coalesce.uhc.enchantments.Venom;
 import com.coalesce.uhc.eventhandlers.*;
 import com.coalesce.uhc.utilities.MainConfigWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.logging.Level;
 
@@ -56,5 +61,14 @@ public class UHC extends CoPlugin {
         new CommandHandler(this);
         Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
                 new MessageHandler(), new HeadEatHandler(), new CraftingHandler()}).forEach(this::registerListener);
+        try {
+            Field accept = Enchantment.class.getDeclaredField("acceptingNew");
+            accept.setAccessible(true);
+            accept.set(null, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        Arrays.asList(new CustomEnchant[]{new Vanishment(), new Venom()}).forEach(Enchantment::registerEnchantment);
+        Enchantment.stopAcceptingRegistrations();
     }
 }
