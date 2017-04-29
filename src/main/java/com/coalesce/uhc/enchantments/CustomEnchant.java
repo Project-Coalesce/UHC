@@ -4,11 +4,12 @@ import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
-public class CustomEnchant extends Enchantment {
+public class CustomEnchant extends Enchantment implements Listener {
     @Setter private int maxLevel = 0;
     @Setter private boolean treasure = false;
     @Setter private boolean cursed = false;

@@ -54,7 +54,10 @@ public class UHC extends CoPlugin {
         Arrays.asList(new CustomEnchant[]{
                 new CustomEnchantBuilder(new Vanishment()).name(colour("Curse of Vanishment")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build(),
                 new CustomEnchantBuilder(new Venom()).name(colour("&cCurse of Venom")).maxLevel(3).itemTarget(EnchantmentTarget.ALL).build()
-        }).forEach(Enchantment::registerEnchantment);
+        }).forEach((e) -> {
+            Enchantment.registerEnchantment(e);
+            this.registerListener(e);
+        });
         Enchantment.stopAcceptingRegistrations();
     }
 
