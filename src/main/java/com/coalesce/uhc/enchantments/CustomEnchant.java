@@ -8,9 +8,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public abstract class CustomEnchant extends Enchantment {
-    @Setter private int startLevel;
-    @Setter private boolean treasure;
-    @Setter private boolean cursed;
+    @Setter private int startLevel = 0;
+    @Setter private boolean treasure = false;
+    @Setter private boolean cursed = false;
 
     public CustomEnchant(int id) {
         super(id);
@@ -18,17 +18,17 @@ public abstract class CustomEnchant extends Enchantment {
 
     @Override
     public int getStartLevel() { // Not final due to override-able
-        return 0;
+        return startLevel;
     }
 
     @Override
     public boolean isTreasure() { // Not final due to override-able
-        return false;
+        return treasure;
     }
 
     @Override
     public boolean isCursed() { // Not final due to override-able
-        return false;
+        return cursed;
     }
 
     @Override
