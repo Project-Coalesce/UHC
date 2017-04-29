@@ -32,6 +32,33 @@ public class UHC extends CoPlugin {
         instance = this;
         displayName = "CoalesceUHC";
 
+        Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
+
+        new CommandHandler(this);
+        Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
+                new MessageHandler(), new HeadEatHandler(), new CraftingHandler(), new EnchantmentHandler()}).forEach(this::registerListener);
+    }
+
+    private void loadCustomEnchants() {
+        try {
+            Field accept = Enchantment.class.getDeclaredField("acceptingNew");
+            accept.setAccessible(true);
+            accept.set(null, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        Arrays.asList(new CustomEnchant[]{new Vanishment(), new Venom()}).forEach(Enchantment::registerEnchantment);
+        Enchantment.stopAcceptingRegistrations();
+    }
+
+    private void ensureRules() {
+        rulesFile = new File(getDataFolder(), "rules.json");
+        if (!rulesFile.exists()) {
+            saveResource("rules.json", true);
+        }
+    }
+
+    private void loadMainConfig() {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
@@ -50,25 +77,5 @@ public class UHC extends CoPlugin {
             );
             MainConfigWriter.writeMainConfig(getDataFolder(), mainConfig);
         }
-
-        rulesFile = new File(getDataFolder(), "rules.json");
-        if (!rulesFile.exists()) {
-            saveResource("rules.json", true);
-        }
-
-        Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
-
-        new CommandHandler(this);
-        Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
-                new MessageHandler(), new HeadEatHandler(), new CraftingHandler(), new EnchantmentHandler()}).forEach(this::registerListener);
-        try {
-            Field accept = Enchantment.class.getDeclaredField("acceptingNew");
-            accept.setAccessible(true);
-            accept.set(null, true);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        Arrays.asList(new CustomEnchant[]{new Vanishment(), new Venom()}).forEach(Enchantment::registerEnchantment);
-        Enchantment.stopAcceptingRegistrations();
     }
 }

@@ -1,5 +1,6 @@
 package com.coalesce.uhc.enchantments;
 
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +8,10 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public abstract class CustomEnchant extends Enchantment {
+    @Setter private int startLevel;
+    @Setter private boolean treasure;
+    @Setter private boolean cursed;
+
     public CustomEnchant(int id) {
         super(id);
     }

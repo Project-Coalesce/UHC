@@ -20,21 +20,26 @@ public class EnchantmentHandler implements Listener {
     public void prepareEnchantHandler(PrepareItemEnchantEvent event) {
         for (int i = 0; i < event.getOffers().length; i++) {
             EnchantmentOffer offer = event.getOffers()[i];
+
             if (offer.getEnchantment() instanceof CustomEnchant) {
                 CustomEnchant enchant = (CustomEnchant) offer.getEnchantment();
+
                 if (enchant.requirements().length == 0 && enchant.applyable().length == 0) {
                     continue;
                 }
+
                 Enchantment requirements[] = enchant.requirements();
                 Material apply[] = enchant.applyable();
                 boolean changed = !Arrays.asList(apply).contains(event.getItem().getType());
                 List<Enchantment> usable = Arrays.asList(Enchantment.values());
+
                 for (Enchantment required : requirements) {
                     if (!event.getItem().getItemMeta().hasEnchant(required) ||
                             (required instanceof CustomEnchant && !Arrays.asList(((CustomEnchant) required).applyable()).contains(event.getItem().getType()))) {
                         changed |= usable.remove(required);
                     }
                 }
+
                 if (changed) {
                     offer.setEnchantment(usable.get(ThreadLocalRandom.current().nextInt(usable.size())));
                 }
@@ -45,23 +50,28 @@ public class EnchantmentHandler implements Listener {
     @EventHandler
     public void enchantHandler(EnchantItemEvent event) {
         Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getEnchantsToAdd().entrySet().iterator();
+
         while (iterator.hasNext()) {
             Map.Entry<Enchantment, Integer> entry = iterator.next();
             if (entry.getKey() instanceof CustomEnchant) {
                 CustomEnchant enchant = (CustomEnchant) entry.getKey();
+
                 if (enchant.requirements().length == 0 && enchant.applyable().length == 0) {
                     continue;
                 }
+
                 Enchantment requirements[] = enchant.requirements();
                 Material apply[] = enchant.applyable();
                 boolean changed = !Arrays.asList(apply).contains(event.getItem().getType());
                 List<Enchantment> usable = Arrays.asList(Enchantment.values());
+
                 for (Enchantment required : requirements) {
                     if (!event.getItem().getItemMeta().hasEnchant(required) ||
                             (required instanceof CustomEnchant && !Arrays.asList(((CustomEnchant) required).applyable()).contains(event.getItem().getType()))) {
                         changed |= usable.remove(required);
                     }
                 }
+
                 if (changed) {
                     iterator.remove();
                     Enchantment newEnch = usable.get(ThreadLocalRandom.current().nextInt(usable.size()));
