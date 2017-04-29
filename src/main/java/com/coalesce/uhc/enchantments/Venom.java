@@ -5,27 +5,12 @@ import org.bukkit.enchantments.EnchantmentTarget;
 
 import static com.coalesce.uhc.utilities.Statics.colour;
 
+/**
+ * Applies potion upon the attacked entity.
+ */
 public class Venom extends CustomEnchant {
-    /**
-     * Applies potion upon the attacked entity.
-     */
     public Venom() {
         super(1501);
-    }
-
-    @Override
-    public String getName() {
-        return colour("&cCurse of Venom");
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return 3;
-    }
-
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.ALL;
     }
 
     @Override

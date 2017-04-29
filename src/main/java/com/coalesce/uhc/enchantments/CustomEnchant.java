@@ -3,14 +3,17 @@ package com.coalesce.uhc.enchantments;
 import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
-public abstract class CustomEnchant extends Enchantment {
-    @Setter private int startLevel = 0;
+public class CustomEnchant extends Enchantment {
+    @Setter private int maxLevel = 0;
     @Setter private boolean treasure = false;
     @Setter private boolean cursed = false;
+    @Setter private String name = "";
+    @Setter private EnchantmentTarget itemTarget;
 
     public CustomEnchant(int id) {
         super(id);
@@ -18,7 +21,17 @@ public abstract class CustomEnchant extends Enchantment {
 
     @Override
     public int getStartLevel() { // Not final due to override-able
-        return startLevel;
+        return 0;
+    }
+
+    @Override
+    public int getMaxLevel(){
+        return maxLevel;
+    }
+
+    @Override
+    public EnchantmentTarget getItemTarget(){
+        return itemTarget;
     }
 
     @Override
@@ -34,6 +47,11 @@ public abstract class CustomEnchant extends Enchantment {
     @Override
     public boolean conflictsWith(Enchantment other) { // Not final due to override-able
         return false;
+    }
+
+    @Override
+    public String getName(){
+        return name;
     }
 
     @Override
