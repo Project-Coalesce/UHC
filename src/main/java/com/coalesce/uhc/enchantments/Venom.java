@@ -1,7 +1,5 @@
 package com.coalesce.uhc.enchantments;
 
-import static com.coalesce.uhc.utilities.BukkitRunnableWrapper.bukkitRunnable;
-
 import com.coalesce.uhc.UHC;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,8 +11,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
-
-import static com.coalesce.uhc.utilities.Statics.colour;
 
 /**
  * Applies potion upon the attacked entity.

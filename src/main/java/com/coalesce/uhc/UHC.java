@@ -2,10 +2,7 @@ package com.coalesce.uhc;
 
 import com.coalesce.plugin.CoPlugin;
 import com.coalesce.uhc.configuration.MainConfiguration;
-import com.coalesce.uhc.enchantments.CustomEnchant;
-import com.coalesce.uhc.enchantments.CustomEnchantBuilder;
-import com.coalesce.uhc.enchantments.Vanishment;
-import com.coalesce.uhc.enchantments.Venom;
+import com.coalesce.uhc.enchantments.*;
 import com.coalesce.uhc.eventhandlers.*;
 import com.coalesce.uhc.utilities.MainConfigWriter;
 import com.google.gson.Gson;
@@ -53,7 +50,10 @@ public class UHC extends CoPlugin {
         }
         Arrays.asList(new CustomEnchant[]{
                 new CustomEnchantBuilder(new Vanishment()).name(colour("Curse of Vanishment")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build(),
-                new CustomEnchantBuilder(new Venom()).name(colour("&cCurse of Venom")).maxLevel(3).itemTarget(EnchantmentTarget.ALL).build()
+                new CustomEnchantBuilder(new Venom()).name(colour("&cCurse of Venom")).maxLevel(3).itemTarget(EnchantmentTarget.ALL).build(),
+                new CustomEnchantBuilder(new Magic()).name(colour("&cCurse of Magic")).maxLevel(1).itemTarget(EnchantmentTarget.BOW).build(),
+                new CustomEnchantBuilder(new Reversion()).name(colour("&cCurse of Reversion")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build(),
+                new CustomEnchantBuilder(new Shanker()).name(colour("Shanker")).maxLevel(1).itemTarget(EnchantmentTarget.ARMOR).build(),
         }).forEach((e) -> {
             Enchantment.registerEnchantment(e);
             this.registerListener(e);
