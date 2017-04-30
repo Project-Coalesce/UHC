@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class Venom extends CustomEnchant {
 
     public Venom() {
         super(1501);
+        cooldown = new ArrayList<>();
     }
 
     @Override

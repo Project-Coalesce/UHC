@@ -54,7 +54,8 @@ public class UHC extends CoPlugin {
                 new CustomEnchantBuilder(new Magic()).name(colour("&cCurse of Magic")).maxLevel(1).itemTarget(EnchantmentTarget.BOW).build(),
                 new CustomEnchantBuilder(new Reversion()).name(colour("&cCurse of Reversion")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build(),
                 new CustomEnchantBuilder(new Shanker()).name(colour("Shanker")).maxLevel(1).itemTarget(EnchantmentTarget.ARMOR).build(),
-                new CustomEnchantBuilder(new Magnet()).name(colour("Magnet")).maxLevel(3).itemTarget(EnchantmentTarget.ARMOR).build()
+                new CustomEnchantBuilder(new Magnet()).name(colour("Magnet")).maxLevel(3).itemTarget(EnchantmentTarget.ARMOR).build(),
+                new CustomEnchantBuilder(new SkeletalSummoning()).name(colour("Skeletal Summoning")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build()
         }).forEach((e) -> {
             Enchantment.registerEnchantment(e);
             this.registerListener(e);
