@@ -1,6 +1,8 @@
 package com.coalesce.uhc.enchantments;
 
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import static com.coalesce.uhc.utilities.Statics.colour;
 /**
@@ -14,5 +16,12 @@ public class Vanishment extends CustomEnchant {
     @Override
     public EnchantmentTarget getItemTarget() {
         return EnchantmentTarget.ALL;
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        event.getDrops().forEach(cur -> {
+            if(cur.containsEnchantment(this)) event.getDrops().remove(cur);
+        });
     }
 }
