@@ -4,10 +4,18 @@ import com.coalesce.uhc.enchantments.CustomEnchant;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -69,5 +77,47 @@ public class EnchantmentHandler implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void inventoryClicked(InventoryClickEvent event) {
+        // TODO: Add equipment handler
+        // TODO: Add drop handler
+        if (event.getClick() == ClickType.WINDOW_BORDER_LEFT ||
+                event.getClick() == ClickType.WINDOW_BORDER_RIGHT) {
+            return; // Let #itemDropped handle it.
+        }
+
+    }
+
+    @EventHandler
+    public void itemDropped(PlayerDropItemEvent event) {
+        Item drop = event.getItemDrop();
+        ItemStack item = drop.getItemStack();
+        if (!item.hasItemMeta()) {
+            return;
+        }
+        ItemMeta meta = item.getItemMeta();
+        if (!meta.hasEnchants()) {
+            return;
+        }
+        for (Map.Entry<Enchantment, Integer> entry : meta.getEnchants().entrySet()) {
+            if (!(entry.getKey() instanceof CustomEnchant)) {
+                continue;
+            }
+            CustomEnchant enchant = (CustomEnchant) entry.getKey();
+            event.setCancelled(enchant.dropped(drop, event.getPlayer()));
+        }
+    }
+
+    @EventHandler
+    public void entityAttacked(EntityDamageByEntityEvent event) {
+        // TODO: Add attack handler
+    }
+
+    @EventHandler
+    public void itemClicked(PlayerInteractEvent event) {
+        // TODO: Add general click handler
+        // TODO: Add equipment handler
     }
 }

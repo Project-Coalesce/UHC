@@ -2,6 +2,8 @@ package com.coalesce.uhc.enchantments;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -52,5 +54,9 @@ public abstract class CustomEnchant extends Enchantment {
      */
     public Enchantment[] requirements() {
         return new Enchantment[0];
+    }
+
+    public boolean dropped(Item drop, Player dropper) {
+        return false;
     }
 }
