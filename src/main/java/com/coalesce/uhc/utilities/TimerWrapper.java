@@ -4,6 +4,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerWrapper {
+    private TimerWrapper() {
+    }
+
     public static void schedule(final Runnable r, long delay) {
         new Timer().schedule(new TimerTask() {
             public void run() {

@@ -1,6 +1,9 @@
 package com.coalesce.uhc.utilities;
 
 public class Conditionals {
+    private Conditionals() {
+    }
+
     public static <T, U, A, B> boolean ofBoth(T t, U u, A a, B b) {
         if (t == a) {
             return u == b;

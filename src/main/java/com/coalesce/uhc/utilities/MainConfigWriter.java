@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class MainConfigWriter {
+    private MainConfigWriter() {
+    }
+
     public static void writeMainConfig(File dataFolder, MainConfiguration mainConfiguration) {
         try {
             File file = new File(dataFolder.getAbsolutePath() + File.separatorChar + "config.json");

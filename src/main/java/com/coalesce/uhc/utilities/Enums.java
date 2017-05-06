@@ -5,6 +5,9 @@ import lombok.NonNull;
 import java.util.Optional;
 
 public class Enums {
+    private Enums() {
+    }
+
     @NonNull
     public static <T extends Enum<T>> Optional<T> getEnum(Class<T> enumClass, String name) {
         if (enumClass == null || name == null) {

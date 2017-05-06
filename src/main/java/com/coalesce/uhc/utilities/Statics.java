@@ -3,6 +3,9 @@ package com.coalesce.uhc.utilities;
 import org.bukkit.ChatColor;
 
 public class Statics {
+    private Statics() {
+    }
+
     public static String colour(String colour) {
         return colour('&', colour);
     }
