@@ -5,9 +5,12 @@ import com.coalesce.uhc.enchantments.CustomEnchant;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
+import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -23,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 
 public class EnchantmentHandler implements Listener {
     @EventHandler
@@ -126,17 +130,60 @@ public class EnchantmentHandler implements Listener {
 
     @EventHandler
     public void entityAttacked(EntityDamageByEntityEvent event) {
-        // TODO: Add attack handler
+        if (!(event.getDamager() instanceof Player)) {
+            return;
+        }
+        final Player player = (Player) event.getDamager();
+        final ItemStack item = player.getInventory().getItemInMainHand();
+        item.getEnchantments().keySet().stream().filter((it) -> it instanceof CustomEnchant).map((it) -> (CustomEnchant) it).forEach((it) -> {
+            if (it.attackedEntity(player, event.getEntity(), event)) {
+                event.setCancelled(true);
+            }
+        });
     }
 
     @EventHandler
     public void itemClicked(PlayerInteractEvent event) {
-        // TODO: Add general click handler
-        // TODO: Add equipment handler
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        if (event.getItem() == null) {
+            return;
+        }
+        if (EnchantmentTarget.ARMOR.includes(event.getItem().getType())) { // Easy way to check if armour.
+            return;
+        }
+        event.getItem().getEnchantments().keySet().stream().filter((it) -> it instanceof CustomEnchant).map((it) -> (CustomEnchant) it).forEach((it) -> {
+            if (it.rightClicked(event.getItem(), event)) {
+                event.setCancelled(true);
+            }
+        });
     }
 
     @EventHandler
-    public void armour(ArmourEquipEvent event) {
-
+    public void armour(final ArmourEquipEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        Function<CustomEnchant, Boolean> function = (it) -> it.equipArmour(event);
+        ItemStack item = event.getNewItem();
+        if (event.getHow() == ArmourEquipEvent.Action.UNEQUIP) {
+            function = (it) -> it.unequipArmour(event);
+            item = event.getOldItem();
+        } else if (event.getHow() == ArmourEquipEvent.Action.BREAK) {
+            function = (it) -> it.brokenArmour(event);
+            item = event.getOldItem();
+        } else if (event.getHow() == ArmourEquipEvent.Action.DEATH) {
+            function = (it) -> it.deathArmour(event);
+            item = event.getOldItem();
+        }
+        final Function<CustomEnchant, Boolean> finalFunction = function;
+        item.getEnchantments().keySet().stream().filter((it) -> it instanceof CustomEnchant).map((it) -> (CustomEnchant) it).forEach((it) -> {
+            if (finalFunction.apply(it)) {
+                if (!event.getPlayer().isDead()) {
+                    event.setCancelled(true);
+                }
+            }
+        });
     }
 }

@@ -1,18 +1,23 @@
 package com.coalesce.uhc.enchantments;
 
+import com.coalesce.uhc.customevents.ArmourEquipEvent;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
 public abstract class CustomEnchant extends Enchantment {
     private final String name;
+
     public CustomEnchant(final int id, final String name) {
         super(id);
         this.name = name;
@@ -62,7 +67,7 @@ public abstract class CustomEnchant extends Enchantment {
     /**
      * Checks whether or not the item can be enchanted with this enchantment.
      *
-     * @param item The item to check.
+     * @param item  The item to check.
      * @param force Whether or not to ignore conflicts.
      * @return Whether or not the enchantment is applicable.
      */
@@ -101,6 +106,30 @@ public abstract class CustomEnchant extends Enchantment {
     }
 
     public boolean itemDropped(Item drop, Player dropper, PlayerDropItemEvent event) {
+        return false;
+    }
+
+    public boolean unequipArmour(ArmourEquipEvent event) {
+        return false;
+    }
+
+    public boolean equipArmour(ArmourEquipEvent event) {
+        return false;
+    }
+
+    public boolean brokenArmour(ArmourEquipEvent event) {
+        return false;
+    }
+
+    public boolean deathArmour(ArmourEquipEvent event) {
+        return false;
+    }
+
+    public boolean attackedEntity(Player attacker, Entity what, EntityDamageByEntityEvent event) {
+        return false;
+    }
+
+    public boolean rightClicked(ItemStack item, PlayerInteractEvent event) {
         return false;
     }
 }
