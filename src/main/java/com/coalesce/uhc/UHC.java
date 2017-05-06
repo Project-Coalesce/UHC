@@ -5,22 +5,19 @@ import com.coalesce.uhc.configuration.MainConfiguration;
 import com.coalesce.uhc.enchantments.*;
 import com.coalesce.uhc.eventhandlers.*;
 import com.coalesce.uhc.utilities.MainConfigWriter;
+import com.coalesce.uhc.utilities.Reflectives;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.logging.Level;
-
-import static com.coalesce.uhc.utilities.Statics.colour;
+import java.util.stream.Stream;
 
 public class UHC extends CoPlugin {
     @Getter private static UHC instance;
@@ -36,8 +33,9 @@ public class UHC extends CoPlugin {
         Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("NaturalRegeneration", "false")); // Make sure it's hardcore.
 
         new CommandHandler(this);
-        Arrays.asList(new Listener[]{new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
-                new MessageHandler(), new HeadEatHandler(), new CraftingHandler(), new EnchantmentHandler()}).forEach(this::registerListener);
+        Stream.of(new DeathHandler(), new ArcheryHandler(), new GameInitializeHandler(), new JoinQuitHandlers(),
+                new MessageHandler(), new HeadEatHandler(), new CraftingHandler(), new EnchantmentHandler(),
+                new ArmourHandler()).forEach(this::registerListener);
     }
 
     private void loadCustomEnchants() {
@@ -48,16 +46,8 @@ public class UHC extends CoPlugin {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        // Fix depris clusterfuck
-        Arrays.asList(new CustomEnchant[]{
-                new CustomEnchantBuilder(new Vanishment()).name(colour("Curse of Vanishment")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build(),
-                new CustomEnchantBuilder(new Venom()).name(colour("&cCurse of Venom")).maxLevel(3).itemTarget(EnchantmentTarget.ALL).build(),
-                new CustomEnchantBuilder(new Magic()).name(colour("&cCurse of Magic")).maxLevel(1).itemTarget(EnchantmentTarget.BOW).build(),
-                new CustomEnchantBuilder(new Reversion()).name(colour("&cCurse of Reversion")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build(),
-                new CustomEnchantBuilder(new Shanker()).name(colour("Shanker")).maxLevel(1).itemTarget(EnchantmentTarget.ARMOR).build(),
-                new CustomEnchantBuilder(new Magnet()).name(colour("Magnet")).maxLevel(3).itemTarget(EnchantmentTarget.ARMOR).build(),
-                new CustomEnchantBuilder(new SkeletalSummoning()).name(colour("Skeletal Summoning")).maxLevel(1).itemTarget(EnchantmentTarget.ALL).build()
-        }).forEach(Enchantment::registerEnchantment);
+        Stream.of(Vanishment.class, Venom.class, Magic.class, Reversion.class, Shanker.class, Magnet.class, SkeletalSummoning.class)
+                .map(Reflectives::makeInstance).forEach(Enchantment::registerEnchantment);
         Enchantment.stopAcceptingRegistrations();
     }
 
