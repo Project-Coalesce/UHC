@@ -1,29 +1,22 @@
 package com.coalesce.uhc.enchantments;
 
-import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import static com.coalesce.uhc.utilities.Statics.colour;
 
+/**
+ * Doesn't allow items to be dropped from the inventory and the item is destroyed upon death.
+ */
 public class Vanishment extends CustomEnchant {
-    /**
-     * Doesn't allow items to be dropped from the inventory and the item is destroyed upon death.
-     */
     public Vanishment() {
-        super(1500);
+        super(1500, colour("&cCurse of Vanishment"));
     }
 
-    @Override
-    public String getName() {
-        return colour("Curse of Vanishment");
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return 1;
-    }
-
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.ALL;
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        event.getDrops().forEach(cur -> {
+            if(cur.containsEnchantment(this)) event.getDrops().remove(cur);
+        });
     }
 }

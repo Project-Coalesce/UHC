@@ -2,20 +2,40 @@ package com.coalesce.uhc.enchantments;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
 public abstract class CustomEnchant extends Enchantment {
-    public CustomEnchant(int id) {
+    private final String name;
+    public CustomEnchant(final int id, final String name) {
         super(id);
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override
     public int getStartLevel() { // Not final due to override-able
-        return 0;
+        return 1;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return 1;
+    }
+
+    @Override
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ALL;
     }
 
     @Override
@@ -33,8 +53,28 @@ public abstract class CustomEnchant extends Enchantment {
         return false;
     }
 
+
     @Override
     public boolean canEnchantItem(ItemStack item) { // Not final due to override-able
+        return canEnchantItem(item, false);
+    }
+
+    /**
+     * Checks whether or not the item can be enchanted with this enchantment.
+     *
+     * @param item The item to check.
+     * @param force Whether or not to ignore conflicts.
+     * @return Whether or not the enchantment is applicable.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public boolean canEnchantItem(ItemStack item, boolean force) {
+        if (!force) {
+            for (Enchantment enchant : item.getEnchantments().keySet()) {
+                if (conflictsWith(enchant)) {
+                    return false;
+                }
+            }
+        }
         return getItemTarget().includes(item.getType()) && Arrays.asList(applyable()).contains(item.getType());
     }
 
@@ -56,7 +96,11 @@ public abstract class CustomEnchant extends Enchantment {
         return new Enchantment[0];
     }
 
-    public boolean dropped(Item drop, Player dropper) {
+    public boolean itemClicked(ItemStack item, InventoryClickEvent event) {
+        return false;
+    }
+
+    public boolean itemDropped(Item drop, Player dropper, PlayerDropItemEvent event) {
         return false;
     }
 }
