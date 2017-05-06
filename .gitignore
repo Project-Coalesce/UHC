@@ -24,7 +24,6 @@ lombok.jar
 .idea/**/
 .idea/
 *.iml
-rules.json
 
 # Gradle:
 .idea/**/gradle.xml
