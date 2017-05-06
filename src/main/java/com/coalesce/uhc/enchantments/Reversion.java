@@ -5,12 +5,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import static com.coalesce.uhc.utilities.Statics.colour;
+
 /**
  * The sword gives twice the damage, but at the same time damages the damgee and the damager upon attack
  */
 public class Reversion extends CustomEnchant {
     public Reversion() {
-        super(1503, "Reversion");
+        super(1503, colour("&cCurse of Reversion"));
     }
 
     @Override

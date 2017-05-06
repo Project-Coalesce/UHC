@@ -27,6 +27,11 @@ public class Venom extends CustomEnchant {
     }
 
     @Override
+    public int getMaxLevel() {
+        return 3;
+    }
+
+    @Override
     public Material[] applyable() {
         return new Material[]{
                 Material.DIAMOND_SWORD,

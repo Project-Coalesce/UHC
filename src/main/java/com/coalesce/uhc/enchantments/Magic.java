@@ -6,12 +6,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
+import static com.coalesce.uhc.utilities.Statics.colour;
+
 /**
  * Only potion arrows can be fired
  */
 public class Magic extends CustomEnchant {
     public Magic() {
-        super(1502, "Magic");
+        super(1502, colour("&cCurse of Magic"));
     }
 
     @Override

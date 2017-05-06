@@ -1,6 +1,7 @@
 package com.coalesce.uhc.enchantments;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -14,6 +15,11 @@ public class Shanker extends CustomEnchant {
     //TODO Damage players upon impact before you're able to pick the item up
     public Shanker() {
         super(1504, "Shanker");
+    }
+
+    @Override
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR;
     }
 
     @EventHandler
