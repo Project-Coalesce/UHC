@@ -7,6 +7,7 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -99,6 +100,9 @@ public abstract class CustomEnchant extends Enchantment {
      */
     public Enchantment[] requirements() {
         return new Enchantment[0];
+    }
+
+    public void applied(ItemStack item, Player player, EnchantItemEvent event) {
     }
 
     public boolean itemClicked(ItemStack item, InventoryClickEvent event) {

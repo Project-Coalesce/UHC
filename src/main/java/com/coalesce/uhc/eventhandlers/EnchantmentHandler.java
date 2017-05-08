@@ -20,17 +20,39 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 public class EnchantmentHandler implements Listener {
+    private final TreeMap<Integer, String> map = new TreeMap<Integer, String>() {{
+        put(1000, "M");
+        put(900, "CM");
+        put(500, "D");
+        put(400, "CD");
+        put(100, "C");
+        put(90, "XC");
+        put(50, "L");
+        put(40, "XL");
+        put(10, "X");
+        put(9, "IX");
+        put(5, "V");
+        put(4, "IV");
+        put(1, "I");
+    }};
+
+    private String romanNumeral(int number) {
+        int lowest = map.floorKey(number);
+        if (number == lowest) {
+            return map.get(number);
+        }
+        return map.get(lowest) + romanNumeral(number - lowest);
+    }
+
     @EventHandler
-    public void prepareEnchantHandler(PrepareItemEnchantEvent event) {
+    public void prepareEnchantHandler(final PrepareItemEnchantEvent event) {
         for (int i = 0; i < event.getOffers().length; i++) {
             EnchantmentOffer offer = event.getOffers()[i];
 
@@ -61,8 +83,7 @@ public class EnchantmentHandler implements Listener {
     }
 
     @EventHandler
-    public void enchantHandler(EnchantItemEvent event) {
-        // TODO: add to lore
+    public void enchantHandler(final EnchantItemEvent event) {
         Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getEnchantsToAdd().entrySet().iterator();
 
         while (iterator.hasNext()) {
@@ -89,10 +110,29 @@ public class EnchantmentHandler implements Listener {
                 if (changed) {
                     iterator.remove();
                     Enchantment newEnch = usable.get(ThreadLocalRandom.current().nextInt(usable.size()));
-                    event.getEnchantsToAdd().put(newEnch, Math.min(entry.getValue(), newEnch.getMaxLevel()));
+                    event.getEnchantsToAdd().put(newEnch, Math.min(entry.getValue(), newEnch.getStartLevel()));
+                    if (newEnch instanceof CustomEnchant) {
+                        ((CustomEnchant) newEnch).applied(event.getItem(), event.getEnchanter(), event);
+                    }
                 }
             }
         }
+        ItemMeta meta = event.getItem().getItemMeta();
+        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        iterator = event.getEnchantsToAdd().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Enchantment, Integer> entry = iterator.next();
+            if (!(entry.getKey() instanceof CustomEnchant)) {
+                continue;
+            }
+            CustomEnchant enchant = (CustomEnchant) entry.getKey();
+            List<String> toRemove = new ArrayList<>();
+            lore.stream().filter((it) -> it.matches(enchant.getName() + " \\w+")).forEach(toRemove::add);
+            lore.removeAll(toRemove); // Workaround from a concurrentmodificationexception.
+            lore.add(enchant.getName() + ' ' + romanNumeral(entry.getValue()));
+        }
+        meta.setLore(lore);
+        event.getItem().setItemMeta(meta);
     }
 
     @EventHandler
