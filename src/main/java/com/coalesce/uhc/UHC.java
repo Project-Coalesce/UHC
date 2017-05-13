@@ -25,7 +25,6 @@ public class UHC extends CoPlugin {
     @Override
     public void onPluginEnable() /* throws Exception - We ain't throwing shit. */ {
         instance = this;
-        displayName = "CoalesceUHC";
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
